@@ -1,5 +1,6 @@
 package springboot.hotele.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,19 +16,19 @@ public class Gosc {
     private String imie;
     private String nazwisko;
     private String telefon;
+    @Column(unique = true)
     private String dokument;
 
     public Gosc(){};
     
     public Gosc(String imie, String nazwisko, String telefon, String dokument) {
-        
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.telefon = telefon;
         this.dokument = dokument;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

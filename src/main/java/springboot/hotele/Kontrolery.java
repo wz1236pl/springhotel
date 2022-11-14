@@ -55,14 +55,30 @@ public class Kontrolery {
     @RequestMapping(value="/dodajGosc", method=RequestMethod.GET)
     public String dodajGosc(Model model){
         model.addAttribute("GoscIn", new Gosc());
+        model.addAttribute("errorTXT", "");
         return("nowyGosc");
     }
 
     @RequestMapping(value="/dodajGosc", method=RequestMethod.POST)
     public String dodajGosc(Model model, Gosc gosc){
-        goscRepo.save(gosc);
+        gosc.setDokument(gosc.getDokument().replaceAll("\\s+",""));
 
-        return("redirect:/nowyGosc");
+        if(gosc.getImie().equals("") || gosc.getNazwisko().equals("") || gosc.getTelefon().equals("") || gosc.getDokument().equals("")){
+            model.addAttribute("GoscIn", gosc);
+            model.addAttribute("errorTXT", "Uzupełnij wszystkie pola!");
+            return("nowyGosc");
+        }
+
+        if(goscRepo.findByDokumentIs(gosc.getDokument().toString())!=null){
+            model.addAttribute("GoscIn", gosc);
+            model.addAttribute("errorTXT", "Gość z tym dokumentem już istnieje!");
+            return("nowyGosc");
+        }
+
+        goscRepo.save(gosc);
+        model.addAttribute("GoscIn", new Gosc());
+        model.addAttribute("errorTXT", "Dodano gościa!");
+        return("nowyGosc");
     }
 
     @RequestMapping(value = "/wyswietlGosc", method=RequestMethod.GET)
@@ -96,21 +112,29 @@ public class Kontrolery {
     //dodawanie rezerwacji -------------------------------------------------------------------------------------
 
     @RequestMapping(value="/rezerwoj", method=RequestMethod.GET)
-    public String rezerwoj(Model model ){
+    public String rezerwoj1(Model model ){
         model.addAttribute("GoscIn", new Gosc());
-        model.addAttribute("RezerwacjaIn", new Rezerwacja());
-        
-
-        return("");
+        model.addAttribute("errorTXT", "");
+        return("rezerwoj1");
     }
 
-    @RequestMapping(value="/rezerwoj", method=RequestMethod.GET)
-    public String rezerwoj(Model model, Gosc gosc, Rezerwacja rezerwacja){
-        
-
-        return("");
+    @RequestMapping(value="/rezerwoj2", method=RequestMethod.GET)
+    public String rezerwoj2(Model model ){
+        model.addAttribute("rezerwacjaIn", new Rezerwacja());
+        model.addAttribute("errorTXT", "kurwa");
+        return("rezerwoj2");
     }
 
+    @RequestMapping(value="/rezerwoj2", method=RequestMethod.POST)
+    public String rezerwoj2(Model model, Rezerwacja rezerwacja){
+        rezerwacja.toString();
+        rezerwacjaRepo.save(rezerwacja);
+        model.addAttribute("rezerwacjaIn", new Rezerwacja());
+        model.addAttribute("errorTXT", "kurwa2");
+        return("rezerwoj2");
+    }
+
+ 
 
     //WYJĄTKI           -------------------------------------------------------------------------------------
     @ExceptionHandler

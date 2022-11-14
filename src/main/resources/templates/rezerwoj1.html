@@ -2,10 +2,10 @@
 <html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
-  <title>Dodawanie nowego gościa</title>
+  <title>Dodawanie nowego pokoju</title>
 </head>
 <body>
-    <form th:action="@{/dodajGosc}" th:object="${GoscIn}" method="post">
+      <form th:action="@{/rezerwoj2}" th:object="${GoscIn}" method="post">
         IMIE: <input th:field="*{imie}" type="text"><br>
         NAZWISKO: <input th:field="*{nazwisko}" type="text"><br>
         TELEFON: <input th:field="*{telefon}" type="text"><br>
@@ -13,6 +13,7 @@
         <input type="submit" value="DODAJ">
     </form>
     <h2 th:text="${errorTXT}"></h2>
+    <button onclick="window.location.href='/rezerwoj2'">Istniejący klient</button>
     <button onclick="window.location.href='/'">Home page</button>
 </body>
 </html>

@@ -56,15 +56,15 @@ public class Pokoj{
     public Float getCena() {
         return cena;
     }
-
+    public Integer getId() {
+        return id;
+    }
     @Override
     public String toString() {
         return "pokoj [nrPokoju=" + nrPokoju + ", miejsca=" + miejsca + ", opis=" + opis + ", cena=" + cena + "]";
     }
 
-    public Integer getId() {
-        return id;
-    }
+    
 
     
     

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Dodawanie nowej rezerwacji</title>
+</head>
+<body>
+    <form th:action="@{/rezerwoj2}" th:object="${rezerwacjaIn}" method="post">
+        Data rozoczęcia pobytu: <input th:field="*{dataStart}" type="date"><br>
+        Data zakończenia Pobytu: <input th:field="*{dataEnd}" type="date"><br>
+        Numer pokoju: <input th:field="*{idPokoj}" type="text"><br>
+        Id gościa:  <input th:field="*{idGosc}" type="text"><br>
+        <input type="submit" value="DODAJ">
+    </form>
+    <button onclick="window.location.href='/'">Home page</button>
+</body>
+</html>
