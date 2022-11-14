@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>
+        Tabela pokoje
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>     
+  </head>
+  <body>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered">          
+                <thead>
+                    <tr  class="active">
+                        <th>ID</th>  
+                        <th>NR_POKOJU</th>
+                        <th>ILOSC MIEJSC</th>                                                      
+                        <th>OPIS</th>
+                        <th>CENA</th>                                                      
+                    </tr>
+                    
+                </thead>
+                <tbody>                       
+                    <tr th:each ="r : ${rezerwacjaTab}">               
+                        <td> <b  th:utext="${r.id}"></b> </td>
+                        <td> <b  th:utext="${r.dataStart}"></b> </td>
+                        <td> <b  th:utext="${p.dataEnd}"></b> </td>
+                        <td> <b  th:utext="${p.idPokoj}"></b> </td>
+                        <td> <b  th:utext="${p.idGosc}"></b> </td>                         
+                    </tr>
+                </tbody>          
+            </table>    
+        </div>
+    </div>
+  </body>
+</html>

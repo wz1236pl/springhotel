@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Dodawanie nowego pokoju</title>
+</head>
+<body>
+    <form th:action="@{/dodajPokoj}" th:object="${PokojIn}" method="post">
+        NUMER POKOJU: <input th:field="*{nrPokoju}" type="text"><br>
+        ILOŚĆ MIEJSC: <input th:field="*{miejsca}" type="text"><br>
+        CENA ZA DOBE: <input th:field="*{cena}" type="text"><br>
+        OPIS POKOJU:  <input th:field="*{opis}" type="text"><br>
+        <input type="submit" value="DODAJ">
+    </form>
+</body>
+</html>
