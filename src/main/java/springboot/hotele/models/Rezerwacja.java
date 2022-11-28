@@ -2,23 +2,19 @@ package springboot.hotele.models;
 
 
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Rezerwacja {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
-    @Temporal(TemporalType.DATE)
     private Date dataStart;
-    @Temporal(TemporalType.DATE)
     private Date dataEnd;
     private int idPokoj;
     private int idGosc;
@@ -32,7 +28,7 @@ public class Rezerwacja {
         this.idGosc = idGosc;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

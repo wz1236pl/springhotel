@@ -127,7 +127,6 @@ public class Kontrolery {
 
     @RequestMapping(value="/rezerwoj2", method=RequestMethod.POST)
     public String rezerwoj2(Model model, Rezerwacja rezerwacja){
-        rezerwacja.toString();
         rezerwacjaRepo.save(rezerwacja);
         model.addAttribute("rezerwacjaIn", new Rezerwacja());
         model.addAttribute("errorTXT", "kurwa2");

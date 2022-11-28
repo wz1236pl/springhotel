@@ -7,16 +7,49 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button onclick="window.location.href='/dodajPokoj'">dodajPokoj</button>
-    <button onclick="window.location.href='/wyswietlPokoj'">wyswietlPokoje</button>
-    <br>
-    <button onclick="window.location.href='/dodajGosc'">dodajGosc</button>
-    <button onclick="window.location.href='/wyswietlGosc'">wyswietlGosc</button>
-    <br>
-    <button onclick="window.location.href='/dodajRezerwacja'">dodajRezerwacja</button>
-    <button onclick="window.location.href='/wyswietlRezerwacja'">wyswietlRezerwacja</button>
-    <br>
-    <button onclick="window.location.href='/rezerwoj'">rezerwoj</button>
-
+  <div class="wrapper">
+    <div class="box">
+      <div><button onclick="window.location.href='/dodajPokoj'" >
+        dodajPokoj
+      </button></div>
+      <div><button onclick="window.location.href='/wyswietlPokoj'">
+        wyswietlPokoje
+      </button></div>
+      <div><button onclick="window.location.href='/dodajGosc'">
+        dodajGosc
+      </button></div> 
+      <div><button onclick="window.location.href='/wyswietlGosc'">
+        wyswietlGosc
+      </button></div>
+      <div><button onclick="window.location.href='/dodajRezerwacja'">
+        dodajRezerwacja
+      </button></div>
+      <div><button onclick="window.location.href='/wyswietlRezerwacja'">
+        wyswietlRezerwacja
+      </button></div>
+      <div><button onclick="window.location.href='/rezerwoj'">
+        rezerwoj
+      </button></div>
+    </div>
+  </div>
   </body>
 </html>
+<style>
+body{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background-color: rgb(150, 150, 150);
+ }
+.wrapper {width: 400px;}
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  margin:-10px;
+  }
+.box>* {
+  flex: 1 1 160px;
+  margin: 10px;
+}
+
+</style>
