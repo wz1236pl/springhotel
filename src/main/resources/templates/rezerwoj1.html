@@ -9,7 +9,7 @@
 </head>
 <body class="flex justify-center items-center bg-[#969696]">
   <div class="flex flex-col w-full max-w-md mt-10">
-    <form th:action="@{/rezerwoj2}" th:object="${GoscIn}" method="post"
+    <form th:action="@{/rezerwoj1}" th:object="${GoscIn}" method="post"
       class="bg-white shadow-xl rounded px-8 pt-6 pb-8" >
       <div class="md:flex md:items-center mb-8">
         <div class="md:w-1/3">
@@ -57,10 +57,8 @@
       </div>
       <div class="md:flex md:items-center gap-x-2">
         <div class="md:w-1/4 flex items-stretch my-1">
-          <button onclick="window.location.href='/'"
+          <input type="submit" value="Powrót"
             class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none focus-visible:ring text-white font-bold py-2 px-4 w-full rounded">
-            Powrót
-          </button>
         </div>
         <div class="md:w-2/4 flex items-stretch my-1">
           <button onclick="window.location.href='/rezerwoj2'"
