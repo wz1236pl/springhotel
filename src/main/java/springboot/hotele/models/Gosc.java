@@ -13,10 +13,11 @@ public class Gosc {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+    @Column(unique = true)
+    private String email;
     private String imie;
     private String nazwisko;
     private String telefon;
-    @Column(unique = true)
     private String dokument;
 
     public Gosc(){};

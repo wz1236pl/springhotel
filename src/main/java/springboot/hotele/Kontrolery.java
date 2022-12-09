@@ -16,8 +16,8 @@ import springboot.hotele.repository.RezerwacjaRepo;
 
 //          TO DO:
 //      - Wyświetlane z parametrem (historia pokoi itp)
-//      - Realizowanie pełnej rezerwacji (dodanie info i gościu i rezerwaji na jednym formie)
-//      - 
+//      - Po rejestracji można samodzielnie dokonać rezerwacji pokoju w wybranych datach
+
 
 @Controller
 public class Kontrolery {
@@ -135,13 +135,18 @@ public class Kontrolery {
     public String rezerwoj2(Model model, Rezerwacja rezerwacja){
         rezerwacjaRepo.save(rezerwacja);
         model.addAttribute("rezerwacjaIn", new Rezerwacja());
-        model.addAttribute("errorTXT", "kurwa2");
         return("rezerwoj2");
     }
 
- 
+    //logowanie            -------------------------------------------------------------------------------------
+    @RequestMapping(value="/login", method=RequestMethod.GET)
+    public String zaloguj(Model model){
+        return("login");
+    }
+    
 
-    //WYJĄTKI           -------------------------------------------------------------------------------------
+
+    //WYJĄTKI              -------------------------------------------------------------------------------------
     @ExceptionHandler
     public String handlerException(Model model,Exception exception)
     {
