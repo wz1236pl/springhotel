@@ -1,31 +1,34 @@
 package springboot.hotele.models;
 
-
-
 import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="rezerwacja")
 public class Rezerwacja {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
     private Date dataStart;
     private Date dataEnd;
-    private int idPokoj;
-    private int idGosc;
+    @ManyToOne
+    private Pokoj pokoj;
+    @ManyToOne
+    private Gosc gosc;
 
     public Rezerwacja() {};
 
-    public Rezerwacja(Date dataStart, Date dataEnd, int idPokoj, int idGosc) {
+    public Rezerwacja(Date dataStart, Date dataEnd, Pokoj pokoj, Gosc gosc) {
         this.dataStart = dataStart;
         this.dataEnd = dataEnd;
-        this.idPokoj = idPokoj;
-        this.idGosc = idGosc;
+        this.pokoj = pokoj;
+        this.gosc = gosc;
     }
 
     public Integer getId() {
@@ -39,16 +42,6 @@ public class Rezerwacja {
     public Date getDataEnd() {
         return dataEnd;
     }
-
-    public int getIdPokoj() {
-        return idPokoj;
-    }
-
-    public int getIdGosc() {
-        return idGosc;
-    }
-
-    
     
     public void setDataStart(Date dataStart) {
         this.dataStart = dataStart;
@@ -58,18 +51,30 @@ public class Rezerwacja {
         this.dataEnd = dataEnd;
     }
 
-    public void setIdPokoj(int idPokoj) {
-        this.idPokoj = idPokoj;
+    public Pokoj getPokoj() {
+        return pokoj;
     }
 
-    public void setIdGosc(int idGosc) {
-        this.idGosc = idGosc;
+    public void setPokoj(Pokoj pokoj) {
+        this.pokoj = pokoj;
+    }
+
+    public Gosc getGosc() {
+        return gosc;
+    }
+
+    public void setGosc(Gosc gosc) {
+        this.gosc = gosc;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return "rezerwacja [id=" + id + ", dataStart=" + dataStart + ", dataEnd=" + dataEnd + ", idPokoj=" + idPokoj
-                + "]";
+        return "Rezerwacja [id=" + id + ", dataStart=" + dataStart + ", dataEnd=" + dataEnd + ", pokoj=" + pokoj
+                + ", gosc=" + gosc + "]";
     }
 
 }

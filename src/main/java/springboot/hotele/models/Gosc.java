@@ -1,13 +1,19 @@
 package springboot.hotele.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="gosc") 
 public class Gosc {
     
     @Id
@@ -15,10 +21,14 @@ public class Gosc {
     private Integer id;
     @Column(unique = true)
     private String email;
+    private String password;
     private String imie;
     private String nazwisko;
     private String telefon;
     private String dokument;
+    @OneToMany(mappedBy = "rezerwacja")  
+    private List<Rezerwacja> wypozyczenie  = new ArrayList<Rezerwacja>(); 
+
 
     public Gosc(){};
     
@@ -65,10 +75,39 @@ public class Gosc {
         this.dokument = dokument;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Rezerwacja> getWypozyczenie() {
+        return wypozyczenie;
+    }
+
+    public void setWypozyczenie(List<Rezerwacja> wypozyczenie) {
+        this.wypozyczenie = wypozyczenie;
+    }
+
     @Override
     public String toString() {
-        return "gosc [id=" + id + ", imie=" + imie + ", nazwisko=" + nazwisko + ", telefon=" + telefon + ", dokument="
-                + dokument + "]";
+        return "Gosc [id=" + id + ", email=" + email + ", password=" + password + ", imie=" + imie + ", nazwisko="
+                + nazwisko + ", telefon=" + telefon + ", dokument=" + dokument + ", wypozyczenie=" + wypozyczenie + "]";
     }
+
     
 }

@@ -1,11 +1,18 @@
 package springboot.hotele.models;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 
 
 @Entity
+@Table(name="pokoj")
 public class Pokoj{
 
     @Id
@@ -15,6 +22,8 @@ public class Pokoj{
     private int miejsca;
     private String opis;
     private Float cena;
+    @OneToMany(mappedBy = "rezerwacja")
+    private List<Rezerwacja> wypozyczenie  = new ArrayList<Rezerwacja>();
 
     public Pokoj(){}
 
@@ -59,13 +68,23 @@ public class Pokoj{
     public Integer getId() {
         return id;
     }
-    @Override
-    public String toString() {
-        return "pokoj [nrPokoju=" + nrPokoju + ", miejsca=" + miejsca + ", opis=" + opis + ", cena=" + cena + "]";
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    
+    public List<Rezerwacja> getWypozyczenie() {
+        return wypozyczenie;
+    }
 
-    
+    public void setWypozyczenie(List<Rezerwacja> wypozyczenie) {
+        this.wypozyczenie = wypozyczenie;
+    }
+
+    @Override
+    public String toString() {
+        return "Pokoj [id=" + id + ", nrPokoju=" + nrPokoju + ", miejsca=" + miejsca + ", opis=" + opis + ", cena="
+                + cena + ", wypozyczenie=" + wypozyczenie + "]";
+    }
     
 }
