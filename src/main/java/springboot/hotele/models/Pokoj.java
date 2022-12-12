@@ -22,7 +22,7 @@ public class Pokoj{
     private int miejsca;
     private String opis;
     private Float cena;
-    @OneToMany(mappedBy = "rezerwacja")
+    @OneToMany(mappedBy = "pokoj")
     private List<Rezerwacja> wypozyczenie  = new ArrayList<Rezerwacja>();
 
     public Pokoj(){}

@@ -26,7 +26,7 @@ public class Gosc {
     private String nazwisko;
     private String telefon;
     private String dokument;
-    @OneToMany(mappedBy = "rezerwacja")  
+    @OneToMany(mappedBy = "gosc")  
     private List<Rezerwacja> wypozyczenie  = new ArrayList<Rezerwacja>(); 
 
 
