@@ -32,13 +32,6 @@ public class Gosc {
 
 
     public Gosc(){};
-    
-    public Gosc(String imie, String nazwisko, String telefon, String dokument) {
-        this.imie = imie;
-        this.nazwisko = nazwisko;
-        this.telefon = telefon;
-        this.dokument = dokument;
-    }
 
     public Integer getId() {
         return id;

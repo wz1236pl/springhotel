@@ -1,6 +1,7 @@
 package springboot.hotele;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,8 @@ public class Kontrolery {
     private PokojRepo pokojRepo;
     @Autowired
     private RezerwacjaRepo rezerwacjaRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //pokoje            -------------------------------------------------------------------------------------
 
@@ -63,21 +66,10 @@ public class Kontrolery {
     public String dodajGosc(Model model, Gosc gosc){
         gosc.setDokument(gosc.getDokument().replaceAll("\\s+",""));
 
-        if(gosc.getImie().equals("") || gosc.getNazwisko().equals("") || gosc.getTelefon().equals("") || gosc.getDokument().equals("")){
-            model.addAttribute("GoscIn", gosc);
-            model.addAttribute("errorTXT", "Uzupełnij wszystkie pola!");
-            return("nowyGosc");
-        }
-
-        if(goscRepo.findByDokumentIs(gosc.getDokument().toString())!=null){
-            model.addAttribute("GoscIn", gosc);
-            model.addAttribute("errorTXT", "Gość z tym dokumentem już istnieje!");
-            return("nowyGosc");
-        }
-
+        gosc.setPassword(passwordEncoder.encode(gosc.getPassword()));
+        gosc.setRole("GOSC");
         goscRepo.save(gosc);
         model.addAttribute("GoscIn", new Gosc());
-        model.addAttribute("errorTXT", "Dodano gościa!");
         return("nowyGosc");
     }
 

@@ -9,10 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import springboot.hotele.models.Gosc;
 import springboot.hotele.repository.GoscRepo;
-
+@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider{
     @Autowired
     private GoscRepo gRepo;
@@ -23,9 +24,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final String email = authentication.getName();
         final String password = authentication.getCredentials().toString();
-
-        Gosc gosc = gRepo.findByEmailIs(email);
+        System.out.println("huj1");
+        Gosc gosc = gRepo.findByEmail(email);
+        System.out.println(password);
         if(passwordEncoder.matches(password, gosc.getPassword())){
+            System.out.println("huj2");
             return new UsernamePasswordAuthenticationToken(email, password, new ArrayList<>());
         }else{
             throw new BadCredentialsException("Login error!");
