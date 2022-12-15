@@ -7,4 +7,7 @@ import springboot.hotele.models.Gosc;
 public interface GoscRepo extends JpaRepository<Gosc, Integer> {
     
     Gosc findByDokumentIs(String a);
+
+    Gosc findByEmailIs(String email);
+
 }

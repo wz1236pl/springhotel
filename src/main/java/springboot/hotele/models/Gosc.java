@@ -22,12 +22,13 @@ public class Gosc {
     @Column(unique = true)
     private String email;
     private String password;
+    private String role;
     private String imie;
     private String nazwisko;
     private String telefon;
     private String dokument;
     @OneToMany(mappedBy = "gosc")  
-    private List<Rezerwacja> wypozyczenie  = new ArrayList<Rezerwacja>(); 
+    private List<Rezerwacja> rezerwacja  = new ArrayList<Rezerwacja>(); 
 
 
     public Gosc(){};
@@ -95,19 +96,29 @@ public class Gosc {
         this.id = id;
     }
 
-    public List<Rezerwacja> getWypozyczenie() {
-        return wypozyczenie;
+    public List<Rezerwacja> getRezerwacja() {
+        return rezerwacja;
     }
 
-    public void setWypozyczenie(List<Rezerwacja> wypozyczenie) {
-        this.wypozyczenie = wypozyczenie;
+    public void setRezerwacja(List<Rezerwacja> rezerwacja) {
+        this.rezerwacja = rezerwacja;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
-        return "Gosc [id=" + id + ", email=" + email + ", password=" + password + ", imie=" + imie + ", nazwisko="
-                + nazwisko + ", telefon=" + telefon + ", dokument=" + dokument + ", wypozyczenie=" + wypozyczenie + "]";
+        return "Gosc [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + ", imie=" + imie
+                + ", nazwisko=" + nazwisko + ", telefon=" + telefon + ", dokument=" + dokument + ", rezerwacja="
+                + rezerwacja + "]";
     }
 
     
+
 }
