@@ -15,17 +15,17 @@
                     <th scope="col" class="py-3 px-6">ID</th>  
                     <th scope="col" class="py-3 px-6">DATA START</th>
                     <th scope="col" class="py-3 px-6">DATA END</th>                                                      
-                    <th scope="col" class="py-3 px-6">ID POKOJU</th>
-                    <th scope="col" class="py-3 px-6">ID GOSC</th>                                                      
+                    <th scope="col" class="py-3 px-6">NR POKOJU</th>
+                    <th scope="col" class="py-3 px-6">EMAIL</th>                                                      
                 </tr>
             </thead>
             <tbody>                       
                 <tr th:each ="r : ${rezerwacjaTab}" class="bg-white border-b bg-gray-50 hover:bg-gray-100">               
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"> <b  th:utext="${r.id}"></b> </th>
                     <td class="py-4 px-6"> <b  th:utext="${r.dataStart}"></b> </td>
-                    <td class="py-4 px-6"> <b  th:utext="${p.dataEnd}"></b> </td>
-                    <td class="py-4 px-6"> <b  th:utext="${p.idPokoj}"></b> </td>
-                    <td class="py-4 px-6"> <b  th:utext="${p.idGosc}"></b> </td>                         
+                    <td class="py-4 px-6"> <b  th:utext="${r.dataEnd}"></b> </td>
+                    <td class="py-4 px-6"> <b  th:utext="${r.pokoj.nrPokoju}"></b> </td>
+                    <td class="py-4 px-6"> <b  th:utext="${r.gosc.email}"></b> </td>                         
                 </tr>
             </tbody>          
         </table>    

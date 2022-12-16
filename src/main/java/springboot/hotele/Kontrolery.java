@@ -82,22 +82,9 @@ public class Kontrolery {
 
     //rezerwacja        -------------------------------------------------------------------------------------
     
-    @RequestMapping(value="/dodajRezerwacja", method=RequestMethod.GET)
-    public String dodajRezerwacja(Model model){
-        model.addAttribute("RezerwacjaIn", new Rezerwacja());
-        return("nowaRezerwacja");
-    }
-
-    @RequestMapping(value="/dodajRezerwacja", method=RequestMethod.POST)
-    public String dodajRezerwacja(Model model, Rezerwacja rezerwacja){
-        rezerwacjaRepo.save(rezerwacja);
-
-        return("redirect:/nowaRezerwacja");
-    }
-
     @RequestMapping(value = "/wyswietlRezerwacja", method=RequestMethod.GET)
     public String wyswietlRezerwacja(Model model){
-        model.addAttribute("goscTab", rezerwacjaRepo.findAll());
+        model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAll());
         return "wyswietlRezerwacja";
     }
 

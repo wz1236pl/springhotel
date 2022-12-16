@@ -50,7 +50,7 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <select th:field="*{idPokoj}" class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+          <select th:field="*{pokoj}" class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             <option th:each="p: ${pokojList}" th:value="${p.id}" th:utext="'Nr: '+ ${p.nrPokoju}+' opis: '+${p.opis}"></option>
           </select>
         </div>
@@ -62,7 +62,7 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <select th:field="*{idGosc}" class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+          <select th:field="*{gosc}" class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             <option th:each="g: ${goscList}" th:value="${g.id}" th:utext="${g.Imie}+' '+${g.nazwisko}+' '+${g.dokument}"></option>
           </select>
         </div>
