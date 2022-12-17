@@ -1,12 +1,14 @@
 package springboot.hotele;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import springboot.hotele.models.Gosc;
 import springboot.hotele.models.Pokoj;
@@ -18,6 +20,7 @@ import springboot.hotele.repository.RezerwacjaRepo;
 //          TO DO:
 //      - Wyświetlane z parametrem (historia pokoi itp)
 //      - Po rejestracji można samodzielnie dokonać rezerwacji pokoju w wybranych datach
+//      - th:if taki gość istnieje
 
 
 @Controller
@@ -34,20 +37,20 @@ public class Kontrolery {
 
     //pokoje            -------------------------------------------------------------------------------------
 
-    @RequestMapping(value="/dodajPokoj", method=RequestMethod.GET)
+    @RequestMapping(value="/dodajPokoj", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
     public String dodajPokoj(Model model){
         model.addAttribute("PokojIn", new Pokoj());
         return("nowyPokoj");
     }
 
-    @RequestMapping(value="/dodajPokoj", method=RequestMethod.POST)
+    @RequestMapping(value="/dodajPokoj", method=RequestMethod.POST)     //zmienić na tylko dla pracownikow
     public String dodajPokoj(Model model, Pokoj pokoj){
         pokojRepo.save(pokoj);
 
         return("redirect:/dodajPokoj");
     }
     
-    @RequestMapping(value = "/wyswietlPokoj", method=RequestMethod.GET)
+    @RequestMapping(value = "/wyswietlPokoj", method=RequestMethod.GET) 
     public String wyswietlPokoje(Model model){
         model.addAttribute("pokojTab", pokojRepo.findAll());
         return "wyswietlPokoj";
@@ -55,25 +58,23 @@ public class Kontrolery {
 
     //gosc              -------------------------------------------------------------------------------------
 
-    @RequestMapping(value="/dodajGosc", method=RequestMethod.GET)
+    @RequestMapping(value="/register", method=RequestMethod.GET)
     public String dodajGosc(Model model){
         model.addAttribute("GoscIn", new Gosc());
-        model.addAttribute("errorTXT", "");
         return("nowyGosc");
     }
 
-    @RequestMapping(value="/dodajGosc", method=RequestMethod.POST)
+    @RequestMapping(value="/register", method=RequestMethod.POST)
     public String dodajGosc(Model model, Gosc gosc){
         gosc.setDokument(gosc.getDokument().replaceAll("\\s+",""));
-
         gosc.setPassword(passwordEncoder.encode(gosc.getPassword()));
         gosc.setRole("GOSC");
         goscRepo.save(gosc);
         model.addAttribute("GoscIn", new Gosc());
-        return("nowyGosc");
+        return("nowyGosc");                                             //<==== Registered succesfuly 
     }
 
-    @RequestMapping(value = "/wyswietlGosc", method=RequestMethod.GET)
+    @RequestMapping(value = "/wyswietlGosc", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
     public String wyswietlGosc(Model model){
         model.addAttribute("goscTab", goscRepo.findAll());
         return "wyswietlGosc";
@@ -82,15 +83,34 @@ public class Kontrolery {
 
     //rezerwacja        -------------------------------------------------------------------------------------
     
-    @RequestMapping(value = "/wyswietlRezerwacja", method=RequestMethod.GET)
+    @RequestMapping(value = "/wyswietlRezerwacja", method=RequestMethod.GET)        //wszystkie rezerwacje
     public String wyswietlRezerwacja(Model model){
         model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAll());
         return "wyswietlRezerwacja";
     }
 
-    //dodawanie rezerwacji -------------------------------------------------------------------------------------
+    @RequestMapping(value = "/wyswietlMojeRezerwacje", method=RequestMethod.GET)        //rezerwacje zalogowanego goscia
+    public String wyswietlWszystkieRezerwacje(Model model, Authentication authentication){
+        model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAllByGoscEmail(authentication.getName()));
+        return "wyswietlRezerwacja";
+    }
 
-    @RequestMapping(value="/rezerwoj1", method=RequestMethod.GET)
+    @RequestMapping(value = "/pracownik/edytujRezerwacje", method=RequestMethod.GET)        //edytuj rezerwacje o podanym id, wysyła dane do edycji w formie
+    public String edytujRezerwacje( @RequestParam(value="ID", defaultValue="0") String ID,
+                                    Model model){
+        Integer id = Integer.parseInt(ID);
+        model.addAttribute("rezerwacja", rezerwacjaRepo.findById(id));
+        return "edytujRezerwacje";
+    }
+
+    @RequestMapping(value = "/pracownik/edytujRezerwacje", method=RequestMethod.POST)       //zapis edytowanej rezerwacji
+    public String edytujRezerwacje(Model model, Rezerwacja rezerwacja){
+        model.addAttribute("rezerwacja", rezerwacja);
+        rezerwacjaRepo.save(rezerwacja);
+        return "edytujRezerwacje";
+    }
+
+    @RequestMapping(value="/rezerwoj1", method=RequestMethod.GET) //
     public String rezerwoj1(Model model ){
         model.addAttribute("GoscIn", new Gosc());
         return("rezerwoj1");
@@ -118,7 +138,7 @@ public class Kontrolery {
     }
 
     //logowanie            -------------------------------------------------------------------------------------
-    @RequestMapping(value="/login", method=RequestMethod.GET)
+    @RequestMapping(value="/login", method=RequestMethod.GET)   //wyświetlane customowego formularza logowania
     public String zaloguj(Model model){
         return("login");
     }

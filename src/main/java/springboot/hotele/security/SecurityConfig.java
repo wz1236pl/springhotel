@@ -24,7 +24,7 @@ public class SecurityConfig{
             .authorizeRequests()
             .antMatchers("/login.html").permitAll()
             .antMatchers("/").permitAll()
-            .antMatchers("/dodajPokoj").hasAnyAuthority("GOSC")
+            .antMatchers("/dodajPokoj").hasAnyAuthority("PRACOWNIK")
             .and()
             .formLogin()
             .loginPage("/login"); 
