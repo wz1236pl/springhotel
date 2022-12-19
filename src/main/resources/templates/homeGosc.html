@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>Strona główna hotelu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="box">
+        <h1>Strona gościa</h1>
+      <div><button onclick="window.location.href='/wyswietlPokoj'">
+        Wyswietl pokoje
+      </button></div>
+      <div><button onclick="window.location.href='/register'">
+        Zarejestruj się
+      </button></div> 
+      <div><button onclick="window.location.href='/login'">
+        Zaloguj
+      </button></div>
+      <div><button onclick="window.location.href='/logout'">
+        Wyloguj
+      </button></div>
+    </div>
+  </div>
+  </body>
+</html>
+<style>
+body{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ background-color: rgb(150, 150, 150);
+ }
+.wrapper {width: 400px;}
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  margin:-10px;
+  }
+.box>* {
+  flex: 1 1 160px;
+  margin: 10px;
+}
+
+</style>

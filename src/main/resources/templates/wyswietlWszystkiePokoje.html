@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>
+        Tabela pokoje
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg bg-gray-300 text-md">
+        <table class="w-full text-left bg-gray-50 text-gray-500 ">          
+            <thead class="text-gray-700 uppercase bg-gray-300 ">
+                <tr>
+                    <th scope="col" class="py-3 px-6">ID</th>  
+                    <th scope="col" class="py-3 px-6">NR_POKOJU</th>
+                    <th scope="col" class="py-3 px-6">ILOSC MIEJSC</th>
+                    <th scope="col" class="py-3 px-6">CENA</th>                                                         
+                    <th scope="col" class="py-3 px-6">OPIS</th>        
+                </tr>
+            </thead>
+            <tbody>                       
+                <tr th:each ="p : ${pokojTab}" class="bg-white border-b bg-gray-50 hover:bg-gray-100">               
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"><b  th:utext="${p.id}"></b> </th>
+                    <td class="py-4 px-6"> <b  th:utext="${p.nrPokoju}"></b> </td>
+                    <td class="py-4 px-6"> <b  th:utext="${p.miejsca}"></b> </td>
+                    <td class="py-4 px-6"> <b  th:utext="${p.cena}+' zł'"></b> </td>
+                    <td class="py-4 px-6"> <b  th:utext="${p.opis}"></b> </td>
+                </tr>
+            </tbody>          
+        </table>
+    <button onclick="window.location.href='/'" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 m-1 rounded">
+        Powrót
+    </button>         
+    </div>
+  </body>
+</html>
+<style>
+body{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: rgb(150, 150, 150);
+}
+</style>

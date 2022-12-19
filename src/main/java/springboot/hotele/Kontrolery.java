@@ -143,21 +143,20 @@ public class Kontrolery {
         return("login");
     }
 
-    @RequestMapping(value = "/logincase", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String logincase(Model model, Authentication auth){
         if(auth == null){
-            System.out.println("null");
+            return "homeAnon";
         }
         else if(auth.getAuthorities().toString().equals("[PRACOWNIK]")){
-            System.out.println("pracownik");
-        }else if(auth.getAuthorities().toString().equals("[GOSC]")){
-            System.out.println("gosc");
-        }else{
-        System.out.println(auth.getAuthorities().toString());
+            return "homePracownik";
         }
-        
-        System.out.println("omija IF");
-        return "redirect:/";
+        else if(auth.getAuthorities().toString().equals("[GOSC]")){
+            return "homeGosc";
+        }
+        else{
+            return "homeAnon";
+        }
     }
     
 
