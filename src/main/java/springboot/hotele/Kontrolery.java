@@ -142,8 +142,24 @@ public class Kontrolery {
     public String zaloguj(Model model){
         return("login");
     }
-    
 
+    @RequestMapping(value = "/logincase", method = RequestMethod.GET)
+    public String logincase(Model model, Authentication auth){
+        if(auth == null){
+            System.out.println("null");
+        }
+        else if(auth.getAuthorities().toString().equals("[PRACOWNIK]")){
+            System.out.println("pracownik");
+        }else if(auth.getAuthorities().toString().equals("[GOSC]")){
+            System.out.println("gosc");
+        }else{
+        System.out.println(auth.getAuthorities().toString());
+        }
+        
+        System.out.println("omija IF");
+        return "redirect:/";
+    }
+    
 
     //WYJĄTKI              -------------------------------------------------------------------------------------
     @ExceptionHandler

@@ -33,6 +33,16 @@ public class Gosc {
 
     public Gosc(){};
 
+    
+
+    public Gosc(String email, String password, String role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+
+
     public Integer getId() {
         return id;
     }

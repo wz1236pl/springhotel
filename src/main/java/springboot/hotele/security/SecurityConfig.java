@@ -22,7 +22,8 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/login.html").permitAll()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/logincase").permitAll()
             .antMatchers("/").permitAll()
             .antMatchers("/dodajPokoj").hasAnyAuthority("PRACOWNIK")
             .and()
