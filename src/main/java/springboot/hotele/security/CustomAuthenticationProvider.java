@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final String email = authentication.getName();
         final String password = authentication.getCredentials().toString();
+        
         Gosc gosc = gRepo.findByEmail(email);
+        if(gosc == null){throw new UsernameNotFoundException("User not found");}
         if(passwordEncoder.matches(password, gosc.getPassword())){
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(gosc.getRole()));

@@ -19,8 +19,7 @@ import springboot.hotele.repository.RezerwacjaRepo;
 
 //          TO DO:
 //      - Wyświetlane z parametrem (historia pokoi itp)
-//      - Po rejestracji można samodzielnie dokonać rezerwacji pokoju w wybranych datach
-//      - th:if taki gość istnieje
+//      - przesyłanie tylko info o pokoju nie obiektu
 
 
 @Controller
@@ -37,13 +36,13 @@ public class Kontrolery {
 
     //pokoje            -------------------------------------------------------------------------------------
 
-    @RequestMapping(value="/dodajPokoj", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
+    @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
     public String dodajPokoj(Model model){
         model.addAttribute("PokojIn", new Pokoj());
         return("nowyPokoj");
     }
 
-    @RequestMapping(value="/dodajPokoj", method=RequestMethod.POST)     //zmienić na tylko dla pracownikow
+    @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.POST)     //zmienić na tylko dla pracownikow
     public String dodajPokoj(Model model, Pokoj pokoj){
         pokojRepo.save(pokoj);
 
@@ -81,7 +80,7 @@ public class Kontrolery {
         }
     }
 
-    @RequestMapping(value = "/wyswietlGosc", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
+    @RequestMapping(value = "/pracownik/wyswietlGosc", method=RequestMethod.GET)     
     public String wyswietlGosc(Model model){
         model.addAttribute("goscTab", goscRepo.findAll());
         return "wyswietlGosc";
@@ -90,18 +89,18 @@ public class Kontrolery {
 
     //rezerwacja        -------------------------------------------------------------------------------------
     
-    @RequestMapping(value = "/wyswietlRezerwacja", method=RequestMethod.GET)        //wszystkie rezerwacje
-    public String wyswietlRezerwacja(Model model){
-        model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAll());
-        return "wyswietlRezerwacja";
-    }
 
-    @RequestMapping(value = "/wyswietlMojeRezerwacje", method=RequestMethod.GET)        //rezerwacje zalogowanego goscia
+    @RequestMapping(value = "/gosc/wyswietlMojeRezerwacje", method=RequestMethod.GET)        //rezerwacje zalogowanego goscia
     public String wyswietlWszystkieRezerwacje(Model model, Authentication authentication){
         model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAllByGoscEmail(authentication.getName()));
         return "wyswietlRezerwacja";
     }
 
+    @RequestMapping(value = "/pracownik/wyswietlRezerwacje", method=RequestMethod.GET)       //wszystkie rezerwacje
+    public String wyswietlRezerwacje(Model model){
+        model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAll());
+        return "wyswietlRezerwacja";
+    }
     @RequestMapping(value = "/pracownik/edytujRezerwacje", method=RequestMethod.GET)        //edytuj rezerwacje o podanym id, wysyła dane do edycji w formie
     public String edytujRezerwacje( @RequestParam(value="ID", defaultValue="0") String ID,
                                     Model model){
@@ -117,31 +116,21 @@ public class Kontrolery {
         return "edytujRezerwacje";
     }
 
-    @RequestMapping(value="/rezerwoj1", method=RequestMethod.GET) 
-    public String rezerwoj1(Model model ){
-        model.addAttribute("GoscIn", new Gosc());
-        return("rezerwoj1");
-    }
-
-    @RequestMapping(value="/rezerwoj1", method=RequestMethod.POST)
-    public String rezerwoj1(Model model, Gosc goscIn){
-        goscRepo.save(goscIn);
-        return("redirect:/rezerwoj2");
-    }
-
-    @RequestMapping(value="/rezerwoj2", method=RequestMethod.GET)
-    public String rezerwoj2(Model model ){
-        model.addAttribute("rezerwacjaIn", new Rezerwacja());
-        model.addAttribute("goscList", goscRepo.findAll());
+    @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.GET)
+    public String rezerwuj(Model model, Authentication auth){
+        Gosc gosc = goscRepo.findByEmail(auth.getName());
+        Rezerwacja rezerwacja = new Rezerwacja();
+        rezerwacja.setGosc(gosc);
+        model.addAttribute("goscInfo", gosc.getImie()+" "+gosc.getNazwisko()+" "+gosc.getEmail());
+        model.addAttribute("rezerwacjaIn", rezerwacja);
         model.addAttribute("pokojList", pokojRepo.findAll());
-        return("rezerwoj2");
+        return("rezerwuj");
     }
 
-    @RequestMapping(value="/rezerwoj2", method=RequestMethod.POST)
-    public String rezerwoj2(Model model, Rezerwacja rezerwacja){
+    @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.POST)
+    public String rezerwuj(Model model, Rezerwacja rezerwacja){
         rezerwacjaRepo.save(rezerwacja);
-        model.addAttribute("rezerwacjaIn", new Rezerwacja());
-        return("rezerwoj2");
+        return("redirect:/gosc/rezerwuj?dodano");
     }
 
     //logowanie            -------------------------------------------------------------------------------------
