@@ -22,10 +22,12 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
             .authorizeRequests()
+            .antMatchers("/register").permitAll()
             .antMatchers("/login").permitAll()
             .antMatchers("/logincase").permitAll()
             .antMatchers("/").permitAll()
-            .antMatchers("/dodajPokoj").hasAnyAuthority("PRACOWNIK")
+            .antMatchers("/gosc/**").hasAnyAuthority("GOSC")
+            .antMatchers("/pracownik/**").hasAnyAuthority("PRACOWNIK")
             .and()
             .formLogin()
             .loginPage("/login"); 

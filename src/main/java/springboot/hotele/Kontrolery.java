@@ -66,12 +66,19 @@ public class Kontrolery {
 
     @RequestMapping(value="/register", method=RequestMethod.POST)
     public String dodajGosc(Model model, Gosc gosc){
-        gosc.setDokument(gosc.getDokument().replaceAll("\\s+",""));
-        gosc.setPassword(passwordEncoder.encode(gosc.getPassword()));
-        gosc.setRole("GOSC");
-        goscRepo.save(gosc);
-        model.addAttribute("GoscIn", new Gosc());
-        return("nowyGosc");                                             //<==== Registered succesfuly 
+        if(goscRepo.findByEmail(gosc.getEmail())!=null){
+            return "redirect:/register?userexist";
+        }
+        try{
+            gosc.setDokument(gosc.getDokument().replaceAll("\\s+",""));
+            gosc.setPassword(passwordEncoder.encode(gosc.getPassword()));
+            gosc.setRole("GOSC");
+            goscRepo.save(gosc);
+            return("redirect:/login?registered");  
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return "redirect:/register?error";
+        }
     }
 
     @RequestMapping(value = "/wyswietlGosc", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
@@ -110,7 +117,7 @@ public class Kontrolery {
         return "edytujRezerwacje";
     }
 
-    @RequestMapping(value="/rezerwoj1", method=RequestMethod.GET) //
+    @RequestMapping(value="/rezerwoj1", method=RequestMethod.GET) 
     public String rezerwoj1(Model model ){
         model.addAttribute("GoscIn", new Gosc());
         return("rezerwoj1");
