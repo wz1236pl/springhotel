@@ -23,7 +23,7 @@ public class Pokoj{
     private String opis;
     private Float cena;
     @OneToMany(mappedBy = "pokoj")
-    private List<Rezerwacja> wypozyczenie  = new ArrayList<Rezerwacja>();
+    private List<Rezerwacja> rezerwacja  = new ArrayList<Rezerwacja>();
 
     public Pokoj(){}
 
@@ -73,18 +73,18 @@ public class Pokoj{
         this.id = id;
     }
 
-    public List<Rezerwacja> getWypozyczenie() {
-        return wypozyczenie;
+    public List<Rezerwacja> getRezerwacja() {
+        return rezerwacja;
     }
 
-    public void setWypozyczenie(List<Rezerwacja> wypozyczenie) {
-        this.wypozyczenie = wypozyczenie;
+    public void setRezerwacja(List<Rezerwacja> rezerwacja) {
+        this.rezerwacja = rezerwacja;
     }
 
     @Override
     public String toString() {
         return "Pokoj [id=" + id + ", nrPokoju=" + nrPokoju + ", miejsca=" + miejsca + ", opis=" + opis + ", cena="
-                + cena + ", wypozyczenie=" + wypozyczenie + "]";
+                + cena;
     }
     
 }

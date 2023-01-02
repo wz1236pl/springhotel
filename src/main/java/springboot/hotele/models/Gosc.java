@@ -118,8 +118,7 @@ public class Gosc {
     @Override
     public String toString() {
         return "Gosc [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + ", imie=" + imie
-                + ", nazwisko=" + nazwisko + ", telefon=" + telefon + ", dokument=" + dokument + ", rezerwacja="
-                + rezerwacja + "]";
+                + ", nazwisko=" + nazwisko + ", telefon=" + telefon + ", dokument=" + dokument;
     }
 
     

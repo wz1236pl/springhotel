@@ -102,3 +102,15 @@ The connection was not closed by the application and is garbage collected [90018
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:678)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
 	... 92 more
+2023-01-02 18:01:37 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DELETE [*]* FROM REZERWACJA WHERE GOSC_ID=null"; oczekiwano "identifier"
+Syntax error in SQL statement "DELETE [*]* FROM REZERWACJA WHERE GOSC_ID=null"; expected "identifier"; SQL statement:
+DELETE * FROM REZERWACJA WHERE GOSC_ID=null [42001-214]
+2023-01-02 18:02:17 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DELETE [*]* FROM REZERWACJA WHERE GOSC_ID='null'"; oczekiwano "identifier"
+Syntax error in SQL statement "DELETE [*]* FROM REZERWACJA WHERE GOSC_ID='null'"; expected "identifier"; SQL statement:
+DELETE * FROM REZERWACJA WHERE GOSC_ID='null' [42001-214]
+2023-01-02 18:02:59 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DELETE [*]* FROM REZERWACJA WHERE GOSC_ID IS null"; oczekiwano "identifier"
+Syntax error in SQL statement "DELETE [*]* FROM REZERWACJA WHERE GOSC_ID IS null"; expected "identifier"; SQL statement:
+DELETE * FROM REZERWACJA WHERE GOSC_ID IS null [42001-214]

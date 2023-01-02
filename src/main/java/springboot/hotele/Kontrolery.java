@@ -128,7 +128,9 @@ public class Kontrolery {
 
     @RequestMapping(value = "/pracownik/wyswietlRezerwacje", method=RequestMethod.GET)       //wszystkie rezerwacje
     public String wyswietlRezerwacje(Model model){
+
         model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAll());
+        // System.out.println(rezerwacjaRepo.findAll());
         return "wyswietlRezerwacja";
     }
     @RequestMapping(value = "/pracownik/edytujRezerwacje", method=RequestMethod.GET)        //edytuj rezerwacje o podanym id, wysyła dane do edycji w formie
