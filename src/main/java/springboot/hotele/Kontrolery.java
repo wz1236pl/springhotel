@@ -1,7 +1,5 @@
 package springboot.hotele;
 
-import javax.security.auth.message.config.AuthConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,9 +38,15 @@ public class Kontrolery {
     //all       +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       all
     
     @RequestMapping(value = "/wyswietlPokoj", method=RequestMethod.GET) 
-    public String wyswietlPokoje(Model model){
+    public String wyswietlPokoje(Model model, Authentication auth){
         model.addAttribute("pokojTab", pokojRepo.findAll());
-        return "wyswietlPokoj";
+        if(auth==null){
+            return "wyswietlPokoj";
+        }else if(auth.getAuthorities().toString().equals("[PRACOWNIK]")){
+            return "wyswietlPokojPracownik";
+        }else{
+            return "wyswietlPokoj";
+        }
     }
 
     @RequestMapping(value="/register", method=RequestMethod.GET)
@@ -76,6 +80,40 @@ public class Kontrolery {
         return "wyswietlRezerwacja";
     }
 
+    // @RequestMapping(value="/gosc/rezerwuj/{id}", method=RequestMethod.GET)
+    // public String rezerwuj(Model model, Authentication auth, @PathVariable("id") Integer id){
+    //     try {
+    //         Gosc gosc = goscRepo.findByEmail(auth.getName());
+    //         Pokoj pokoj = pokojRepo.findByIdIs(id);
+    //         Rezerwacja rezerwacja = new Rezerwacja();
+    //         rezerwacja.setGosc(gosc);
+    //         rezerwacja.setPokoj(pokoj);
+    //         model.addAttribute("goscInfo", gosc.getImie()+" "+gosc.getNazwisko()+" "+gosc.getEmail());
+    //         model.addAttribute("rezerwacjaIn", rezerwacja);
+    //         model.addAttribute("pokojInfo", "Nr.: "+pokoj.getNrPokoju()+" opis: "+pokoj.getOpis());
+    //         System.out.println(rezerwacja);
+    //         return("rezerwujId");
+    //     } catch (Exception e) {
+    //         throw e;
+    //     }
+    // }
+
+    // @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.POST)
+    // public String rezerwuj(Model model, Rezerwacja rezerwacja, Authentication auth){
+    //     try {
+    //         // rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
+    //         // Pokoj pokoj = pokojRepo.findByIdIs(id);
+    //         // rezerwacja.setPokoj(pokoj);
+    //         // rezerwacjaRepo.save(rezerwacja);
+    //         System.out.println(rezerwacja);
+    //         model.addAttribute("rezerwacjaIn", rezerwacja);
+    //         return("rezerwujId");
+    //     } catch (Exception e) {
+    //         return("");
+    //     }
+    // }
+
+
     @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.GET)
     public String rezerwuj(Model model, Authentication auth){
         Gosc gosc = goscRepo.findByEmail(auth.getName());
@@ -96,7 +134,6 @@ public class Kontrolery {
         } catch (Exception e) {
             return("redirect:/gosc/rezerwuj?error");
         }
-        
     }
 
     @RequestMapping(value="/gosc/edytujDane", method=RequestMethod.GET)
@@ -121,13 +158,13 @@ public class Kontrolery {
 
     //pracownik     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       pracownik
 
-    @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.GET)      //zmienić na tylko dla pracownikow
+    @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.GET)      
     public String dodajPokoj(Model model){
         model.addAttribute("PokojIn", new Pokoj());
         return("nowyPokoj");
     }
 
-    @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.POST)     //zmienić na tylko dla pracownikow
+    @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.POST)     
     public String dodajPokoj(Model model, Pokoj pokoj){
         pokojRepo.save(pokoj);
         return("redirect:/dodajPokoj");
@@ -158,6 +195,19 @@ public class Kontrolery {
         }
     }
 
+    @RequestMapping(value = "/pracownik/edytujPokuj/{id}", method=RequestMethod.GET)     
+    public String edytujPokoj(Model model, @PathVariable("id") Integer id){
+        model.addAttribute("PokojIn", pokojRepo.findById(id));
+        return "edytujPokuj";
+    }
+    @RequestMapping(value = "/pracownik/edytujPokuj", method=RequestMethod.POST)     
+    public String edytujPokoj(Model model,Pokoj pokoj){
+        pokojRepo.save(pokoj);
+        model.addAttribute("PokojIn", pokoj);
+        return "edytujPokuj";
+    }
+
+
     @RequestMapping(value = "/pracownik/wyswietlRezerwacje", method=RequestMethod.GET)       //wszystkie rezerwacje
     public String wyswietlRezerwacje(Model model){
 
@@ -178,6 +228,8 @@ public class Kontrolery {
         rezerwacjaRepo.save(rezerwacja);
         return "edytujRezerwacje";
     }
+
+    
 
 
     //logowanie            -------------------------------------------------------------------------------------

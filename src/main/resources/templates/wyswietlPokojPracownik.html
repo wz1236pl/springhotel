@@ -20,7 +20,7 @@
                     <th scope="col" class="py-3 px-3">ILOSC MIEJSC</th>
                     <th scope="col" class="py-3 px-3">CENA</th>                                                         
                     <th scope="col" class="py-3 px-3">OPIS</th>       
-                    <th scope="col" class="py-3 px-3"></th>       
+                    <th scope="col" class="py-3 px-3">AKCJE</th>       
                 </tr>
             </thead>
             <tbody>                       
@@ -30,21 +30,24 @@
                     <td class="py-2 pl-3"> <b  th:utext="${p.miejsca}"></b> </td>
                     <td class="py-2 pl-3"> <b  th:utext="${p.cena}+' zł'"></b> </td>
                     <td class="py-2 pl-3"> <b  th:utext="${p.opis}"></b> </td>
-                    <td class="py-2 pl-3">
-                        <a th:href="'/gosc/rezerwuj/'+${p.id}" >
-                            <button type="button" data-tooltip-target="tooltip-wyn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 border border-blue-700 rounded w-fit" >
-                            <i class="bi bi-house-check"></i>
+                    <td class="py-2 pl-3"> 
+                        <a th:href="'/pracownik/historiaPokuj/'+${p.id}" >
+                            <button type="button" data-tooltip-target="tooltip-history" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 border border-blue-700 rounded w-fit" >
+                            <i class="bi bi-clock-history"></i>
                             </button> 
-                        </a>        
+                        </a>
+                        <a th:href="'/pracownik/edytujPokuj/'+${p.id}" >
+                            <button type="button" data-tooltip-target="tooltip-edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 border border-blue-700 rounded w-fit" >
+                            <i class="bi bi-pencil-square"></i>
+                            </button> 
+                        </a>
                     </td>
-                    
                 </tr>
             </tbody>          
         </table>
     <button type="button" onclick="window.location.href='/'" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 m-1 rounded">
         Powrót
-    </button> 
-    <div>        
+    </button>         
   </body>
 </html>
 <style>
@@ -55,7 +58,13 @@ body{
    background-color: rgb(150, 150, 150);
 }
 </style>
-<div id="tooltip-wyn" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-    Wynajmuje!
+</div>
+<div id="tooltip-history" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    Historia
+    <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
+</div>
+<div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    Edytuj
     <div class="tooltip-arrow" data-popper-arrow></div>
 </div>
