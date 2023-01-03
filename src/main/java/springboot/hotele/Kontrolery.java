@@ -1,5 +1,7 @@
 package springboot.hotele;
 
+import javax.security.auth.message.config.AuthConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,8 +71,8 @@ public class Kontrolery {
     //gosc          +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       gosc
 
     @RequestMapping(value = "/gosc/wyswietlMojeRezerwacje", method=RequestMethod.GET)        //rezerwacje zalogowanego goscia
-    public String wyswietlWszystkieRezerwacje(Model model, Authentication authentication){
-        model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAllByGoscEmail(authentication.getName()));
+    public String wyswietlWszystkieRezerwacje(Model model, Authentication auth){
+        model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAllByGoscEmail(auth.getName()));
         return "wyswietlRezerwacja";
     }
 
@@ -87,9 +89,34 @@ public class Kontrolery {
 
     @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.POST)
     public String rezerwuj(Model model, Rezerwacja rezerwacja, Authentication auth){
-        rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
-        rezerwacjaRepo.save(rezerwacja);
-        return("redirect:/gosc/rezerwuj?success");
+        try {
+            rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
+            rezerwacjaRepo.save(rezerwacja);
+            return("redirect:/gosc/rezerwuj?success");
+        } catch (Exception e) {
+            return("redirect:/gosc/rezerwuj?error");
+        }
+        
+    }
+
+    @RequestMapping(value="/gosc/edytujDane", method=RequestMethod.GET)
+    public String edytujDane(Model model, Authentication auth){
+        model.addAttribute("GoscIn", goscRepo.findByEmail(auth.getName()));
+        return "edytujDaneGosc";
+    }
+    @RequestMapping(value="/gosc/edytujDane", method=RequestMethod.POST)
+    public String edytujDane(Model model, Authentication auth, Gosc nowyGosc){
+        try {
+            Gosc staryGosc = goscRepo.findByEmail(auth.getName());
+            nowyGosc.setId(staryGosc.getId());
+            nowyGosc.setRole(staryGosc.getRole());
+            nowyGosc.setPassword(staryGosc.getPassword());
+            goscRepo.save(nowyGosc);
+            return "redirect:/gosc/edytujDane?success";   
+        } catch (Exception e) {
+            return "redirect:/gosc/edytujDane?error";
+        }
+        
     }
 
     //pracownik     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       pracownik
@@ -103,7 +130,6 @@ public class Kontrolery {
     @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.POST)     //zmienić na tylko dla pracownikow
     public String dodajPokoj(Model model, Pokoj pokoj){
         pokojRepo.save(pokoj);
-
         return("redirect:/dodajPokoj");
     }
     
