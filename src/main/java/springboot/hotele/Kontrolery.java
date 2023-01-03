@@ -1,5 +1,7 @@
 package springboot.hotele;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,7 +91,7 @@ public class Kontrolery {
     public String rezerwuj(Model model, Rezerwacja rezerwacja, Authentication auth){
         rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
         rezerwacjaRepo.save(rezerwacja);
-        return("redirect:/gosc/rezerwuj?dodano");
+        return("redirect:/gosc/rezerwuj?success");
     }
 
     //pracownik     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       pracownik
@@ -120,17 +122,22 @@ public class Kontrolery {
     }
 
     @RequestMapping(value = "/pracownik/edytujGosc", method=RequestMethod.POST)     
-    public String edytujGosc(Model model, Gosc gosc){
-        System.out.println(gosc);
-        // goscRepo.save(gosc);
-        return "redirect:/";
+    public String edytujGosc(Model model, Gosc nowyGosc){
+        try {
+            Gosc staryGosc = goscRepo.findByIdIs(nowyGosc.getId());
+            nowyGosc.setRole(staryGosc.getRole());
+            nowyGosc.setPassword(staryGosc.getPassword());
+            goscRepo.save(nowyGosc);
+            return "redirect:/pracownik/edytujGosc/"+nowyGosc.getId()+"?success";
+        } catch (Exception e) {
+            return "redirect:/pracownik/edytujGosc/"+nowyGosc.getId()+"?error";
+        }
     }
 
     @RequestMapping(value = "/pracownik/wyswietlRezerwacje", method=RequestMethod.GET)       //wszystkie rezerwacje
     public String wyswietlRezerwacje(Model model){
 
         model.addAttribute("rezerwacjaTab", rezerwacjaRepo.findAll());
-        // System.out.println(rezerwacjaRepo.findAll());
         return "wyswietlRezerwacja";
     }
     @RequestMapping(value = "/pracownik/edytujRezerwacje", method=RequestMethod.GET)        //edytuj rezerwacje o podanym id, wysyła dane do edycji w formie
