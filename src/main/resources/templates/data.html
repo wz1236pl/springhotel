@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Strona błedów</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<h2>Wystąpił błąd</h2>
+<form th:action="@{/pokoje}" method="post">
+    <input th:field="${Start}" id="Start" type="date">
+    <input th:field="${End}" id="End" type="date">
+    <input type="submit" value="wykonaj">
+</form>
+
+</body>
+</html>

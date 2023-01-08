@@ -1,11 +1,14 @@
 package springboot.hotele;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +39,22 @@ public class Kontrolery {
     private PasswordEncoder passwordEncoder;
 
     //all       +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       all
+
+    @RequestMapping(value="/pokoje", method=RequestMethod.GET)
+    public String pokojedata(Model model){
+
+        model.addAttribute("start", new Date(0));
+        model.addAttribute("end", new Date(0));
+
+        return("data");
+    }
+    @RequestMapping(value="/pokoje", method=RequestMethod.POST)
+    public String pokoje(Model model, @ModelAttribute("start") Date start, @ModelAttribute("end") Date end ){
+        System.out.println(start);
+        System.out.println(end);
+        // model.addAttribute("pokojTab", pokojRepo.findAllByRezerwacjaNotBetween(null, null));
+        return("wyswietlPokoj");
+    }
     
     @RequestMapping(value = "/wyswietlPokoj", method=RequestMethod.GET) 
     public String wyswietlPokoje(Model model, Authentication auth){
@@ -167,7 +186,7 @@ public class Kontrolery {
     @RequestMapping(value="/pracownik/dodajPokoj", method=RequestMethod.POST)     
     public String dodajPokoj(Model model, Pokoj pokoj){
         pokojRepo.save(pokoj);
-        return("redirect:/dodajPokoj");
+        return("redirect:/pracownik/dodajPokoj");
     }
     
     @RequestMapping(value = "/pracownik/wyswietlGosc", method=RequestMethod.GET)     
