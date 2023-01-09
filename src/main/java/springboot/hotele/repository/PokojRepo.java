@@ -1,9 +1,7 @@
 package springboot.hotele.repository;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

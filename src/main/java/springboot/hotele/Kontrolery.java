@@ -275,10 +275,12 @@ public class Kontrolery {
         }
     }
     //testy                --------------------------------------------------------------------------------------
+    
     @RequestMapping(value="/testdaty", method=RequestMethod.GET)   
     public String testdaty(Model model){
         return("data");
     }
+
     @RequestMapping(value="/testdaty", method=RequestMethod.POST)   
     public String testdaty(Model model,Date start, Date end){
         Long startLong = start.getTime();
@@ -297,9 +299,9 @@ public class Kontrolery {
         for(Pokoj p:zajete){
             listaZajete.add(p.getId());
         }
-        System.out.println(pokojRepo.findAllByIdNotIn(listaZajete));
-        System.out.println("/////////////////////////////////////////////////////////");
-        return("data");
+        model.addAttribute("pokojTab",pokojRepo.findAllByIdNotIn(listaZajete));
+        
+        return("wyswietlPokoj");
     }
 
     //WYJĄTKI              -------------------------------------------------------------------------------------
