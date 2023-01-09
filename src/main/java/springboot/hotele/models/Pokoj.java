@@ -84,7 +84,7 @@ public class Pokoj{
     @Override
     public String toString() {
         return "Pokoj [id=" + id + ", nrPokoju=" + nrPokoju + ", miejsca=" + miejsca + ", opis=" + opis + ", cena="
-                + cena;
+                + cena+"]";
     }
     
 }

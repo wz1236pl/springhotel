@@ -5,13 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-
-<h2>Wystąpił błąd</h2>
-<form th:action="@{/pokoje}" method="post">
-    <input th:field="${Start}" id="Start" type="date">
-    <input th:field="${End}" id="End" type="date">
+<form th:action="@{/testdaty}" method="post">
+    <input name="start" id="start" type="date">
+    <input name="end" id="end" type="date">
     <input type="submit" value="wykonaj">
 </form>
-
 </body>
 </html>

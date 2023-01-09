@@ -1,6 +1,8 @@
 package springboot.hotele;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -272,7 +274,33 @@ public class Kontrolery {
             return "homeAnon";
         }
     }
-    
+    //testy                --------------------------------------------------------------------------------------
+    @RequestMapping(value="/testdaty", method=RequestMethod.GET)   
+    public String testdaty(Model model){
+        return("data");
+    }
+    @RequestMapping(value="/testdaty", method=RequestMethod.POST)   
+    public String testdaty(Model model,Date start, Date end){
+        Long startLong = start.getTime();
+        Long endLong = end.getTime();
+        List<Date> listaDat1= new ArrayList<>();
+        List<Integer> listaZajete= new ArrayList<>();
+        System.out.println((end.getTime()-start.getTime())/86400000);
+        for(Long i=startLong;i<=endLong;i+=86400000){
+            listaDat1.add(new Date(i));
+        }
+        List<Date> listaDat2= new ArrayList<>(listaDat1);
+        listaDat1.remove(listaDat1.size()-1);
+        listaDat2.remove(0);
+        List<Pokoj> zajete= pokojRepo.findDistinctAllPokojByRezerwacjaDataStartInAndRezerwacjaDataEndIn(listaDat1, listaDat2);
+        listaZajete.add(0);
+        for(Pokoj p:zajete){
+            listaZajete.add(p.getId());
+        }
+        System.out.println(pokojRepo.findAllByIdNotIn(listaZajete));
+        System.out.println("/////////////////////////////////////////////////////////");
+        return("data");
+    }
 
     //WYJĄTKI              -------------------------------------------------------------------------------------
     @ExceptionHandler
