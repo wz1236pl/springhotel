@@ -276,8 +276,11 @@ public class Kontrolery {
     }
     //testy                --------------------------------------------------------------------------------------
     
-    @RequestMapping(value="/testdaty", method=RequestMethod.GET)   
+    @RequestMapping(value="/testLista", method=RequestMethod.GET)   
     public String testdaty(Model model){
+        
+        model.addAttribute("pokojTab", pokojRepo.findByIdIs(1));
+
         return("data");
     }
 
