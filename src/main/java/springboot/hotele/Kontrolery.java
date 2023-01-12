@@ -23,18 +23,13 @@ import springboot.hotele.repository.GoscRepo;
 import springboot.hotele.repository.PokojRepo;
 import springboot.hotele.repository.RezerwacjaRepo;
 
-//          TO DO:
-//      - Wyświetlane z parametrem (historia pokoi itp)
-//      - przesyłanie tylko info o pokoju nie obiektu
-
-
 @Controller
 public class Kontrolery {
  
     @Autowired
     private GoscRepo goscRepo;
     @Autowired
-    private PokojRepo pokojRepo;
+    private PokojRepo pokojRepo; 
     @Autowired
     private RezerwacjaRepo rezerwacjaRepo;
     @Autowired
@@ -262,12 +257,15 @@ public class Kontrolery {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String logincase(Model model, Authentication auth){
         if(auth == null){
+            model.addAttribute("auth",auth);
+            model.addAttribute("pokojTab", pokojRepo.findAll());
             return "homeAnon";
         }
         else if(auth.getAuthorities().toString().equals("[PRACOWNIK]")){
             return "homePracownik";
         }
         else if(auth.getAuthorities().toString().equals("[GOSC]")){
+            model.addAttribute("pokojTab", pokojRepo.findAll());
             return "homeGosc";
         }
         else{
@@ -276,11 +274,8 @@ public class Kontrolery {
     }
     //testy                --------------------------------------------------------------------------------------
     
-    @RequestMapping(value="/testLista", method=RequestMethod.GET)   
+    @RequestMapping(value="/testdaty", method=RequestMethod.GET)   
     public String testdaty(Model model){
-        
-        model.addAttribute("pokojTab", pokojRepo.findByIdIs(1));
-
         return("data");
     }
 
@@ -290,7 +285,6 @@ public class Kontrolery {
         Long endLong = end.getTime();
         List<Date> listaDat1= new ArrayList<>();
         List<Integer> listaZajete= new ArrayList<>();
-        System.out.println((end.getTime()-start.getTime())/86400000);
         for(Long i=startLong;i<=endLong;i+=86400000){
             listaDat1.add(new Date(i));
         }
