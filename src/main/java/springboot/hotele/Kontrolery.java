@@ -88,6 +88,35 @@ public class Kontrolery {
         }
     }
 
+    @RequestMapping(value="/wybranyTermin", method=RequestMethod.POST)   
+    public String testdaty(Model model,Date start, Date end, Authentication auth){
+        Long startLong = start.getTime();
+        Long endLong = end.getTime();
+        List<Date> listaDat1= new ArrayList<>();
+        List<Integer> listaZajete= new ArrayList<>();
+        for(Long i=startLong;i<=endLong;i+=86400000){
+            listaDat1.add(new Date(i));
+        }
+        List<Date> listaDat2= new ArrayList<>(listaDat1);
+        listaDat1.remove(listaDat1.size()-1);
+        listaDat2.remove(0);
+        List<Pokoj> zajete= pokojRepo.findDistinctAllPokojByRezerwacjaDataStartInAndRezerwacjaDataEndIn(listaDat1, listaDat2);
+        listaZajete.add(0);
+        for(Pokoj p:zajete){
+            listaZajete.add(p.getId());
+        }
+        
+
+        if(auth == null){
+            model.addAttribute("pokojTab",pokojRepo.findAllByIdNotIn(listaZajete));
+            return "homeAnon";
+        }
+        else if(auth.getAuthorities().toString().equals("[GOSC]")){
+            model.addAttribute("pokojTab", pokojRepo.findAllByIdNotIn(listaZajete));
+            return "homeGosc";
+        }else{model.addAttribute("pokojTab", pokojRepo.findAll()); return "homeAnon";}
+    }
+
     //gosc          +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       gosc
 
     @RequestMapping(value = "/gosc/wyswietlMojeRezerwacje", method=RequestMethod.GET)        //rezerwacje zalogowanego goscia
@@ -257,7 +286,6 @@ public class Kontrolery {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String logincase(Model model, Authentication auth){
         if(auth == null){
-            model.addAttribute("auth",auth);
             model.addAttribute("pokojTab", pokojRepo.findAll());
             return "homeAnon";
         }
@@ -272,34 +300,7 @@ public class Kontrolery {
             return "homeAnon";
         }
     }
-    //testy                --------------------------------------------------------------------------------------
-    
-    @RequestMapping(value="/testdaty", method=RequestMethod.GET)   
-    public String testdaty(Model model){
-        return("data");
-    }
 
-    @RequestMapping(value="/testdaty", method=RequestMethod.POST)   
-    public String testdaty(Model model,Date start, Date end){
-        Long startLong = start.getTime();
-        Long endLong = end.getTime();
-        List<Date> listaDat1= new ArrayList<>();
-        List<Integer> listaZajete= new ArrayList<>();
-        for(Long i=startLong;i<=endLong;i+=86400000){
-            listaDat1.add(new Date(i));
-        }
-        List<Date> listaDat2= new ArrayList<>(listaDat1);
-        listaDat1.remove(listaDat1.size()-1);
-        listaDat2.remove(0);
-        List<Pokoj> zajete= pokojRepo.findDistinctAllPokojByRezerwacjaDataStartInAndRezerwacjaDataEndIn(listaDat1, listaDat2);
-        listaZajete.add(0);
-        for(Pokoj p:zajete){
-            listaZajete.add(p.getId());
-        }
-        model.addAttribute("pokojTab",pokojRepo.findAllByIdNotIn(listaZajete));
-        
-        return("wyswietlPokoj");
-    }
 
     //WYJĄTKI              -------------------------------------------------------------------------------------
     @ExceptionHandler
