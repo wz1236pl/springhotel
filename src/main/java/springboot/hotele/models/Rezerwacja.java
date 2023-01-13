@@ -73,8 +73,8 @@ public class Rezerwacja {
 
     @Override
     public String toString() {
-        return "Rezerwacja [id=" + id + ", dataStart=" + dataStart + ", dataEnd=" + dataEnd + ", pokoj=" + pokoj
-                + ", gosc=" + gosc + "]";
+        return "Rezerwacja [id=" + id + ", dataStart=" + dataStart + ", dataEnd=" + dataEnd + ", pokoj=" + pokoj.getNrPokoju()
+                + ", gosc=" + gosc.getEmail() + "]";
     }
 
 }

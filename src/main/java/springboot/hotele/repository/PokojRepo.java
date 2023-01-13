@@ -17,6 +17,8 @@ public interface PokojRepo extends JpaRepository<Pokoj, Integer> {
 
     List<Pokoj> findAllByIdNotIn(List<Integer> list);
 
+    
+
 }
 
 //LISTA OPERATOROW DO TWORZENIA ZAPYTAN

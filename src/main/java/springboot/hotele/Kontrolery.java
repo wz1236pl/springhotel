@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,24 +36,10 @@ public class Kontrolery {
     private RezerwacjaRepo rezerwacjaRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private Sesja sesja;
 
     //all       +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++       all
-
-    @RequestMapping(value="/pokoje", method=RequestMethod.GET)
-    public String pokojedata(Model model){
-
-        model.addAttribute("start", new Date(0));
-        model.addAttribute("end", new Date(0));
-
-        return("data");
-    }
-    @RequestMapping(value="/pokoje", method=RequestMethod.POST)
-    public String pokoje(Model model, @ModelAttribute("start") Date start, @ModelAttribute("end") Date end ){
-        System.out.println(start);
-        System.out.println(end);
-        // model.addAttribute("pokojTab", pokojRepo.findAllByRezerwacjaNotBetween(null, null));
-        return("wyswietlPokoj");
-    }
     
     @RequestMapping(value = "/wyswietlPokoj", method=RequestMethod.GET) 
     public String wyswietlPokoje(Model model, Authentication auth){
@@ -89,7 +77,9 @@ public class Kontrolery {
     }
 
     @RequestMapping(value="/wybranyTermin", method=RequestMethod.POST)   
-    public String testdaty(Model model,Date start, Date end, Authentication auth){
+    public String testdaty(Model model,Date start, Date end, Authentication auth,HttpSession session){
+        sesja.setStart(start);
+        sesja.setEnd(end);
         Long startLong = start.getTime();
         Long endLong = end.getTime();
         List<Date> listaDat1= new ArrayList<>();
@@ -105,7 +95,7 @@ public class Kontrolery {
         for(Pokoj p:zajete){
             listaZajete.add(p.getId());
         }
-        
+
 
         if(auth == null){
             model.addAttribute("pokojTab",pokojRepo.findAllByIdNotIn(listaZajete));
@@ -125,36 +115,64 @@ public class Kontrolery {
         return "wyswietlRezerwacja";
     }
 
-    // @RequestMapping(value="/gosc/rezerwuj/{id}", method=RequestMethod.GET)
-    // public String rezerwuj(Model model, Authentication auth, @PathVariable("id") Integer id){
-    //     try {
-    //         Gosc gosc = goscRepo.findByEmail(auth.getName());
-    //         Pokoj pokoj = pokojRepo.findByIdIs(id);
-    //         Rezerwacja rezerwacja = new Rezerwacja();
-    //         rezerwacja.setGosc(gosc);
-    //         rezerwacja.setPokoj(pokoj);
-    //         model.addAttribute("goscInfo", gosc.getImie()+" "+gosc.getNazwisko()+" "+gosc.getEmail());
-    //         model.addAttribute("rezerwacjaIn", rezerwacja);
-    //         model.addAttribute("pokojInfo", "Nr.: "+pokoj.getNrPokoju()+" opis: "+pokoj.getOpis());
-    //         System.out.println(rezerwacja);
-    //         return("rezerwujId");
-    //     } catch (Exception e) {
-    //         throw e;
-    //     }
-    // }
+    @RequestMapping(value="/gosc/rezerwujId/{id}", method=RequestMethod.GET)
+    public String rezerwuj(Model model, Authentication auth, HttpSession session, @PathVariable("id") Integer id){
+        try {
+            if(sesja.getEnd()==null){
+                model.addAttribute("brakdaty", true);
+                model.addAttribute("pokojTab", pokojRepo.findAll());
+                return("homeGosc");
+            }
+            System.out.println(sesja);
+            Gosc gosc = goscRepo.findByEmail(auth.getName());
+            Pokoj pokoj = pokojRepo.findByIdIs(id);
+            String koszt=(sesja.getEnd().getTime()-sesja.getStart().getTime())/86400000*pokoj.getCena()+"0zł";
+            Rezerwacja rezerwacja =  new Rezerwacja(sesja.getStart(),sesja.getEnd(),pokoj,gosc);
+            model.addAttribute("rezerwacjaIn", rezerwacja);
+            model.addAttribute("koszt", koszt);
+            System.out.println(rezerwacja);
+            return("rezerwujId");
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
-    // @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.POST)
-    // public String rezerwuj(Model model, Rezerwacja rezerwacja, Authentication auth){
+    @RequestMapping(value="/gosc/rezerwujId", method=RequestMethod.POST)
+    public String rezerwuj(Model model, Rezerwacja rezerwacja){
+        try {
+            rezerwacjaRepo.save(rezerwacja);
+            model.addAttribute("zarezerwowano", true);
+            model.addAttribute("pokojTab", pokojRepo.findAll());
+            return("homeGosc");
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    // @RequestMapping(value="/admin/rezerwuj", method=RequestMethod.POST)
+    // public String rezerwujAdmin(Model model){
     //     try {
     //         // rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
     //         // Pokoj pokoj = pokojRepo.findByIdIs(id);
     //         // rezerwacja.setPokoj(pokoj);
     //         // rezerwacjaRepo.save(rezerwacja);
-    //         System.out.println(rezerwacja);
-    //         model.addAttribute("rezerwacjaIn", rezerwacja);
+            
+    //         model.addAttribute("rezerwacjaIn", new Rezerwacja());
+    //         model
     //         return("rezerwujId");
     //     } catch (Exception e) {
     //         return("");
+    //     }
+    // }
+
+    // @RequestMapping(value="/admin/rezerwuj", method=RequestMethod.POST)
+    // public String rezerwujAdmin(Model model, Rezerwacja rezerwacja){
+    //     try {
+    //         System.out.println(rezerwacja);
+    //         model.addAttribute("rezerwacjaIn", rezerwacja);
+    //         return("rezerwuj");
+    //     } catch (Exception e) {
+    //         return(e.toString());
     //     }
     // }
 
@@ -171,8 +189,9 @@ public class Kontrolery {
     }
 
     @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.POST)
-    public String rezerwuj(Model model, Rezerwacja rezerwacja, Authentication auth){
+    public String rezerwuj(Model model, Rezerwacja rezerwacja, Authentication auth){                    ////zabezpiecz kolejność dat
         try {
+            
             rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
             rezerwacjaRepo.save(rezerwacja);
             return("redirect:/gosc/rezerwuj?success");
@@ -284,7 +303,7 @@ public class Kontrolery {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String logincase(Model model, Authentication auth){
+    public String logincase(Model model, Authentication auth,HttpSession session){
         if(auth == null){
             model.addAttribute("pokojTab", pokojRepo.findAll());
             return "homeAnon";

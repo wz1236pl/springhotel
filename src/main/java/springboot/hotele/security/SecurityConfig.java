@@ -26,7 +26,6 @@ public class SecurityConfig{
             .authorizeRequests()
             .antMatchers("/register").permitAll()
             .antMatchers("/login").permitAll()
-            .antMatchers("/logincase").permitAll()
             .antMatchers("/").permitAll()
             .antMatchers("/gosc/edytujDane").hasAnyAuthority("GOSC","PRACOWNIK")
             .antMatchers("/gosc/**").hasAnyAuthority("GOSC")

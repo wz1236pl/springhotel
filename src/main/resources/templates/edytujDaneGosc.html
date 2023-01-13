@@ -7,7 +7,33 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <div class="w-full max-w-sm mt-10">
+  <script src="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js"></script>
+    <nav class="fixed flex flex-row w-full h-fit inset-0 bg-white border-gray-200 px-2 sm:px-4 py-2.5 " >
+      <div class="container flex flex-wrap items-center justify-between mx-auto">
+        <a href="../" class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap">Hotel</span>
+        </a>
+        <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
+          <span class="sr-only">Otwórz</span>
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+          <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-md md:font-medium md:border-0 md:bg-white">
+            <li>
+              <a href="../" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
+            </li>
+            <li>
+              <a href="/gosc/edytujDane" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Edytuj profil</a>
+            </li>
+            <li>
+              <a href="/logout" type="button" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Wyloguj</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  <div class="w-full max-w-sm mt-32">
     <form th:action="@{/gosc/edytujDane}" th:object="${GoscIn}" method="post" class="bg-white shadow-xl rounded px-8 pt-6 pb-8">
       <div class="md:flex items-stretch mb-8">
         <label class="block uppercase text-gray-500 font-bold text-center mb-1 md:mb-0 pr-4">Edytuj dane</label>

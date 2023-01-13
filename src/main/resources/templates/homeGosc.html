@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js"></script>
     <nav class="fixed flex flex-row w-full h-fit inset-0 bg-white border-gray-200 px-2 sm:px-4 py-2.5 " >
       <div class="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="" class="flex items-center">
+        <a href="/" class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Hotel</span>
         </a>
@@ -24,7 +24,7 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-md md:font-medium md:border-0 md:bg-white">
             <li>
-              <a href="" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
+              <a href="/" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
             </li>
             <li>
               <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Wybierz date</button>
@@ -43,14 +43,13 @@
       </div>
     </nav>
     <div class=" sm:rounded-lg bg-transparent text-md flex-col items-stretch md:h-4/5 md:w-4/5">
-      <a th:each ="p : ${pokojTab}" href="/gosc/rezerwuj" class="flex flex-col items-center items-stretch bg-white my-1 border shadow-md md:rounded-lg md:flex-row md:w-full md:flex-row hover:bg-gray-100 md:items-stretch">
+      <a th:each ="p : ${pokojTab}" th:href="'/gosc/rezerwujId/'+${p.id}" class="flex flex-col items-center items-stretch bg-white my-1 border shadow-md md:rounded-lg md:flex-row md:w-full md:flex-row hover:bg-gray-100 md:items-stretch">
         <img class="object-cover w-full h-fit md:h-4/5 md:w-1/2 md:rounded-none md:rounded-l-lg" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/246453301.jpg?k=e1bffc28064c0b582a897ff8ef6d09ba0755d8cd9c186cb593b658023f770952&o=&hp=1" alt="">
         <div class="flex flex-col justify-between p-4 md:w-1/2 leading-normal ">
           <div calss="row">
             <h5 class="col mb-2 text-2xl font-bold tracking-tight text-gray-900 "><label th:text="'Numer Pokoju: '+${p.nrPokoju}"></label></h5>
             <label class="col" th:text="'Cena za noc: '+${p.cena}+'0zł'"></label>
           </div>
-            
             <p class="row mb-3 font-normal text-gray-700 "><label th:text="${p.opis}"></label></p>
         </div>
       </a> 
@@ -61,24 +60,40 @@
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
   <div class="relative w-full h-full max-w-2xl md:h-auto">
       <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="relative bg-gray-400 rounded-lg shadow">
           <!-- Modal header -->
           <div class="flex items-start justify-between p-4 border-b rounded-t">
               <h3 class="text-xl font-semibold text-gray-900 ">
                   Wybierz termin rezerwacji
               </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
+              <button type="button" class="text-gray-400 bg-white hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center " data-modal-hide="defaultModal">
                   <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                   <span class="sr-only">Zamknij</span>
               </button>
           </div>
           <!-- Modal body -->
           <div class="p-6 space-y-6">
-              <form action="/wybranyTermin" method="post">
-                  <input name="start" id="start" type="date">
-                  <input name="end" id="end" type="date">
-              
-          </div>
+            <form action="/wybranyTermin" method="post">
+              <div class="md:flex md:items-center mb-8">
+                <div class="md:w-1/3">
+                  <label class="block text-black font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
+                    Data przybycia:
+                  </label> 
+                </div>
+                <div class="md:w-2/3">
+                  <input name="start" type="date" placeholder="Data przybycia" required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+              </div><div class="md:flex md:items-center mb-8">
+                <div class="md:w-1/3">
+                  <label class="block text-black font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
+                    Data wyjazdu:
+                  </label> 
+                </div>
+                <div class="md:w-2/3">
+                  <input name="end" type="date" placeholder="Data wyjazdu" required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500">
+                </div>
+              </div>
+        </div>
           <!-- Modal footer -->
           <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b ">
               <input type="submit" data-modal-hide="defaultModal" value="Szukaj" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
@@ -107,6 +122,8 @@
   </div>
 </div>
 
+
+
 <div id="toast-notification" class="fixed w-full max-w-xs p-4 text-gray-200 bottom-1 right-1  bg-blue-500 rounded-lg shadow cursor-pointer" role="alert">
 <div class="flex items-center mb-3">
     <span data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="mb-1 text-sm font-semibold text-white "><i class="bi bi-bell-fill"></i> Nowe powiadomienie</span>
@@ -117,11 +134,49 @@
 </div>
 <div data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="flex items-center">
     <div class="relative inline-block shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="w-12 h-12 text-black bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="w-12 h-12 text-white bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
     </div>
     <div class="ml-3 text-sm font-normal">
         <div class="text-sm font-normal">Kliknij aby wybrać date</div> 
         <span class="text-xs font-medium text-white ">w której chcesz zarezerwować pokój.</span>   
     </div>
 </div>
+</div>
+
+<div th:if="${zarezerwowano}" id="toast-zarezerwowano" class="fixed h-fit w-full max-w-xs p-4 text-gray-200 top-20 inset-y-1/2 bg-green-700 rounded-lg shadow cursor-pointer" role="alert">
+  <div class="flex items-center mb-3">
+      <span class="mb-1 text-sm font-semibold text-white "><i class="bi bi-bell-fill"></i> Nowe powiadomienie</span>
+      <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8" data-dismiss-target="#toast-zarezerwowano" aria-label="Close">
+          <span class="sr-only">Zamknij</span>
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+  </div>
+  <div class="flex items-center">
+      <div class="relative inline-block shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="w-12 h-12 text-white bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
+      </div>
+      <div class="ml-3 text-sm font-normal">
+          <div class="text-sm font-normal">Pomyślnie dokonano rezerwacji! <i class="bi bi-emoji-smile-fill"></i></div> 
+          <span class="text-xs font-medium text-white "></span>   
+      </div>
+  </div>
+</div>
+
+<div th:if="${brakdaty}" id="toast-brakdaty" class="fixed h-fit w-full max-w-xs p-4 text-gray-200 top-20 inset-y-1/2 bg-red-700 rounded-lg shadow cursor-pointer" role="alert">
+  <div class="flex items-center mb-3">
+      <span class="mb-1 text-sm font-semibold text-white "><i class="bi bi-bell-fill"></i> Nowe powiadomienie</span>
+      <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8" data-dismiss-target="#toast-brakdaty" aria-label="Close">
+          <span class="sr-only">Zamknij</span>
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+  </div>
+  <div class="flex items-center">
+      <div class="relative inline-block shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="w-12 h-12 text-white bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
+      </div>
+      <div class="ml-3 text-sm font-normal">
+          <div class="text-sm font-normal">Nie wybrano daty! <i class="bi bi-emoji-frown-fill"></i></div> 
+          <span class="text-xs font-medium text-white "></span>   
+      </div>
+  </div>
 </div>
