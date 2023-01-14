@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>
-        Tabela pokoje
+        Historia wynajmu
     </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js"></script>
     <nav class="fixed flex flex-row w-full h-fit inset-0 bg-white border-gray-200 px-2 sm:px-4 py-2.5 " >
       <div class="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="../" class="flex items-center">
+        <a href="../../" class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Hotel</span>
         </a>
@@ -24,7 +24,7 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-md md:font-medium md:border-0 md:bg-white">
             <li>
-              <a href="../" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
+              <a href="../../" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
             </li>
             <li>
               <a href="/gosc/edytujDane" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Edytuj profil</a>
@@ -40,37 +40,24 @@
         <table class="w-full text-left bg-gray-50 text-gray-500 ">          
             <thead class="text-gray-700 uppercase bg-gray-300 ">
                 <tr>
-                    <th scope="col" class="py-3 px-3">ID</th>  
+                    <th scope="col" class="py-3 px-3">ID_REZERWACJI</th>  
+                    <th scope="col" class="py-3 px-3">START</th>  
+                    <th scope="col" class="py-3 px-3">KONIEC</th>  
                     <th scope="col" class="py-3 px-3">NR_POKOJU</th>
-                    <th scope="col" class="py-3 px-3">ILOSC MIEJSC</th>
-                    <th scope="col" class="py-3 px-3">CENA</th>                                                         
-                    <th scope="col" class="py-3 px-3">OPIS</th>       
-                    <th scope="col" class="py-3 px-3">AKCJE</th>       
+                    <th scope="col" class="py-3 px-3">EMAIL_GOSC</th>     
                 </tr>
             </thead>
             <tbody>                       
-                <tr th:each ="p : ${pokojTab}" class="bg-white border-b bg-gray-50 hover:bg-gray-100">               
-                    <th scope="row" class="py-2 pl-3 font-medium text-gray-900 whitespace-nowrap"><b  th:utext="${p.id}"></b> </th>
-                    <td class="py-2 pl-3"> <b  th:utext="${p.nrPokoju}"></b> </td>
-                    <td class="py-2 pl-3"> <b  th:utext="${p.miejsca}"></b> </td>
-                    <td class="py-2 pl-3"> <b  th:utext="${p.cena}+' zł'"></b> </td>
-                    <td class="py-2 pl-3"> <b  th:utext="${p.opis}"></b> </td>
-                    <td class="py-2 pl-3"> 
-                        <a th:href="'/pracownik/historiaPokoj/'+${p.id}" >
-                            <button type="button" data-tooltip-target="tooltip-history" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 border border-blue-700 rounded w-fit" >
-                            <i class="bi bi-clock-history"></i>
-                            </button> 
-                        </a>
-                        <a th:href="'/pracownik/edytujPokoj/'+${p.id}" >
-                            <button type="button" data-tooltip-target="tooltip-edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 border border-blue-700 rounded w-fit" >
-                            <i class="bi bi-pencil-square"></i>
-                            </button> 
-                        </a>
-                    </td>
+                <tr th:each ="h : ${historia}" class="bg-white border-b bg-gray-50 hover:bg-gray-100">               
+                    <th scope="row" class="py-2 pl-3 font-medium text-gray-900 whitespace-nowrap"><b  th:utext="${h.id}"></b> </th>
+                    <td class="py-2 pl-3"> <b  th:utext="${h.dataStart}"></b> </td>
+                    <td class="py-2 pl-3"> <b  th:utext="${h.dataEnd}"></b> </td>
+                    <td class="py-2 pl-3"> <b  th:utext="${h.pokoj.nrPokoju}"></b> </td>
+                    <td class="py-2 pl-3"> <b  th:utext="${h.gosc.email}"></b> </td>
                 </tr>
             </tbody>          
         </table>
-    <button type="button" onclick="window.location.href='/'" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 m-1 rounded">
+    <button type="button" onclick="window.location.href='/wyswietlPokoj'" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 m-1 rounded">
         Powrót
     </button>         
   </body>

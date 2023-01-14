@@ -9,5 +9,8 @@ import springboot.hotele.models.Rezerwacja;
 public interface RezerwacjaRepo extends JpaRepository<Rezerwacja, Integer> {
 
     List<Rezerwacja> findAllByGoscEmail(String email);
+
+    List<Rezerwacja> findAllByPokojId(Integer id);
     
+    List<Rezerwacja> findAllByGoscId(Integer id);
 }

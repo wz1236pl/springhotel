@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @AutoConfigureBefore
 @Configuration
@@ -32,7 +33,10 @@ public class SecurityConfig{
             .antMatchers("/pracownik/**").hasAnyAuthority("PRACOWNIK")
             .and()
             .formLogin()
-            .loginPage("/login"); 
+            .loginPage("/login")
+            .and()
+            .exceptionHandling()
+            .accessDeniedHandler(accessDeniedHandler());
         
         return http.build();
     }
@@ -52,6 +56,11 @@ public class SecurityConfig{
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
     }
 
 }

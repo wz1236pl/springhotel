@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -259,18 +258,30 @@ public class Kontrolery {
         }
     }
 
-    @RequestMapping(value = "/pracownik/edytujPokuj/{id}", method=RequestMethod.GET)     
+    @RequestMapping(value = "/pracownik/edytujPokoj/{id}", method=RequestMethod.GET)     
     public String edytujPokoj(Model model, @PathVariable("id") Integer id){
         model.addAttribute("PokojIn", pokojRepo.findById(id));
-        return "edytujPokuj";
+        return "edytujPokoj";
     }
-    @RequestMapping(value = "/pracownik/edytujPokuj", method=RequestMethod.POST)     
+
+    @RequestMapping(value = "/pracownik/edytujPokoj", method=RequestMethod.POST)     
     public String edytujPokoj(Model model,Pokoj pokoj){
         pokojRepo.save(pokoj);
         model.addAttribute("PokojIn", pokoj);
-        return "edytujPokuj";
+        return "edytujPokoj";
     }
 
+    @RequestMapping(value = "/pracownik/historiaPokoj/{id}", method=RequestMethod.GET)     
+    public String historiaPokoj(Model model, @PathVariable("id") Integer id){
+        model.addAttribute("historia", rezerwacjaRepo.findAllByPokojId(id));
+        return "historiaPokoj";
+    }
+
+    @RequestMapping(value = "/pracownik/historiaGosc/{id}", method=RequestMethod.GET)     
+    public String historiaGosc(Model model, @PathVariable("id") Integer id){
+        model.addAttribute("historia", rezerwacjaRepo.findAllByGoscId(id));
+        return "historiaPokoj";
+    }
 
     @RequestMapping(value = "/pracownik/wyswietlRezerwacje", method=RequestMethod.GET)       //wszystkie rezerwacje
     public String wyswietlRezerwacje(Model model){
@@ -318,6 +329,11 @@ public class Kontrolery {
         else{
             return "homeAnon";
         }
+    }
+
+    @RequestMapping(value="/accessDenied", method=RequestMethod.GET) 
+    public String accessDenied(Model model){
+        return("accessDenied");
     }
 
 
