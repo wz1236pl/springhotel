@@ -126,11 +126,12 @@ public class Kontrolery {
             Gosc gosc = goscRepo.findByEmail(auth.getName());
             // System.out.println(gosc);
             Pokoj pokoj = pokojRepo.findByIdIs(id);
+            System.out.println(pokoj);
             String koszt=(sesja.getEnd().getTime()-sesja.getStart().getTime())/86400000*pokoj.getCena()+"0zł";
             Rezerwacja rezerwacja =  new Rezerwacja(sesja.getStart(),sesja.getEnd(),pokoj,gosc);
             model.addAttribute("rezerwacjaIn", rezerwacja);
             model.addAttribute("koszt", koszt);
-            System.out.println(rezerwacja);
+            // System.out.println(rezerwacja);
             return("rezerwujId");
         } catch (Exception e) {
             throw e;
@@ -140,9 +141,10 @@ public class Kontrolery {
     @RequestMapping(value="/gosc/rezerwujId", method=RequestMethod.POST)
     public String rezerwuj(Model model, Rezerwacja rezerwacja){
         try {
-            System.out.println("////////////////////////////////////////////////////////////////");
-            System.out.println(rezerwacja.getGosc());
-            rezerwacjaRepo.save(rezerwacja);
+            // System.out.println("////////////////////////////////////////////////////////////////");
+            // System.out.println(rezerwacja.getGosc());
+            System.out.println(rezerwacja.getPokoj());
+            //rezerwacjaRepo.save(rezerwacja);
             model.addAttribute("zarezerwowano", true);
             model.addAttribute("pokojTab", pokojRepo.findAll());
             return("homeGosc");
@@ -150,34 +152,6 @@ public class Kontrolery {
             throw e;
         }
     }
-
-    // @RequestMapping(value="/admin/rezerwuj", method=RequestMethod.POST)
-    // public String rezerwujAdmin(Model model){
-    //     try {
-    //         // rezerwacja.setGosc(goscRepo.findByEmail(auth.getName()));
-    //         // Pokoj pokoj = pokojRepo.findByIdIs(id);
-    //         // rezerwacja.setPokoj(pokoj);
-    //         // rezerwacjaRepo.save(rezerwacja);
-            
-    //         model.addAttribute("rezerwacjaIn", new Rezerwacja());
-    //         model
-    //         return("rezerwujId");
-    //     } catch (Exception e) {
-    //         return("");
-    //     }
-    // }
-
-    // @RequestMapping(value="/admin/rezerwuj", method=RequestMethod.POST)
-    // public String rezerwujAdmin(Model model, Rezerwacja rezerwacja){
-    //     try {
-    //         System.out.println(rezerwacja);
-    //         model.addAttribute("rezerwacjaIn", rezerwacja);
-    //         return("rezerwuj");
-    //     } catch (Exception e) {
-    //         return(e.toString());
-    //     }
-    // }
-
 
     @RequestMapping(value="/gosc/rezerwuj", method=RequestMethod.GET)
     public String rezerwuj(Model model, Authentication auth){

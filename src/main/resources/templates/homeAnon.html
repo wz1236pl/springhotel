@@ -15,7 +15,7 @@
       <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a href="/" class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
-            <span class="self-center text-2xl font-semibold whitespace-nowrap ">Hotel</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap ">HotelPANS</span>
         </a>
         <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
           <span class="sr-only">Otwórz</span>
@@ -40,14 +40,14 @@
       </div>
     </nav>
     <div class=" sm:rounded-lg bg-transparent text-md flex-col items-stretch md:h-4/5 md:w-4/5">
-      <a th:each ="p : ${pokojTab}" th:href="'/gosc/rezerwujId/'+${p.id}" class="flex flex-col items-center items-stretch bg-white my-1 border shadow-md md:rounded-lg md:flex-row md:w-full md:flex-row hover:bg-gray-100 md:items-stretch">
-        <img class="object-cover w-full h-fit md:h-4/5 md:w-1/2 md:rounded-none md:rounded-l-lg" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/246453301.jpg?k=e1bffc28064c0b582a897ff8ef6d09ba0755d8cd9c186cb593b658023f770952&o=&hp=1" alt="">
+      <a th:each ="pok, p : ${pokojTab}" th:href="'/gosc/rezerwujId/'+${pok.id}" class="flex flex-col items-center items-stretch bg-white my-1 border shadow-md md:rounded-lg md:flex-row md:w-full md:flex-row hover:bg-gray-100 md:items-stretch">
+        <img class="object-cover w-full h-fit md:h-4/5 md:w-1/2 md:rounded-none md:rounded-l-lg" th:src="${p.odd} ? 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/246453301.jpg?k=e1bffc28064c0b582a897ff8ef6d09ba0755d8cd9c186cb593b658023f770952&o=&hp=1' : 'https://www.europahotelbelfast.com/wp-content/uploads/2021/12/Shannon-Suite-5.jpg'" >
         <div class="flex flex-col justify-between p-4 md:w-1/2 leading-normal ">
           <div calss="row">
-            <h5 class="col mb-2 text-2xl font-bold tracking-tight text-gray-900 "><label th:text="'Numer Pokoju: '+${p.nrPokoju}"></label></h5>
-            <label class="col" th:text="'Cena za noc: '+${p.cena}+'0zł'"></label>
+            <h5 class="col mb-2 text-2xl font-bold tracking-tight text-gray-900 "><label th:text="'Numer Pokoju: '+${pok.nrPokoju}"></label></h5>
+            <label class="col" th:text="'Cena za noc: '+${pok.cena}+'0zł'"></label>
           </div>
-            <p class="row mb-3 font-normal text-gray-700 "><label th:text="${p.opis}"></label></p>
+            <p class="row mb-3 font-normal text-gray-700 "><label th:text="${pok.opis}"></label></p>
         </div>
       </a> 
     </div>
