@@ -2,6 +2,7 @@ package springboot.hotele.models;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,9 +18,9 @@ public class Rezerwacja {
     private Integer id;
     private Date dataStart;
     private Date dataEnd;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Pokoj pokoj;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Gosc gosc;
 
     public Rezerwacja() {};

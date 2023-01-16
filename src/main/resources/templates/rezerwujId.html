@@ -11,7 +11,7 @@
 <body class="flex justify-center items-center bg-[#969696]">
   <nav class="fixed flex flex-row w-full h-fit inset-0 bg-white border-gray-200 px-2 sm:px-4 py-2.5 " >
     <div class="container flex flex-wrap items-center justify-between mx-auto">
-      <a href="" class="flex items-center">
+      <a href="../../" class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16"><path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V.5ZM2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-1 2v1H2v-1h1Zm1 0h1v1H4v-1Zm9-10v1h-1V3h1ZM8 5h1v1H8V5Zm1 2v1H8V7h1ZM8 9h1v1H8V9Zm2 0h1v1h-1V9Zm-1 2v1H8v-1h1Zm1 0h1v1h-1v-1Zm3-2v1h-1V9h1Zm-1 2h1v1h-1v-1Zm-2-4h1v1h-1V7Zm3 0v1h-1V7h1Zm-2-2v1h-1V5h1Zm1 0h1v1h-1V5Z"/></svg>
           <span class="self-center text-2xl font-semibold whitespace-nowrap">Hotel</span>
       </a>
@@ -22,10 +22,7 @@
       <div class="hidden w-full md:block md:w-auto" id="navbar-default">
         <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-md md:font-medium md:border-0 md:bg-white">
           <li>
-            <a href="" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
-          </li>
-          <li>
-            <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Wybierz date</button>
+            <a href="../../" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page"><i class="bi bi-house-fill"></i> Strona główna</a>
           </li>
           <li>
             <a href="/gosc/wyswietlMojeRezerwacje" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Moje rezerwacje</a>
@@ -71,7 +68,8 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <input type="text" th:field="*{pokoj.nrPokoju}" class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-sm placeholder-gray-700 cursor-not-allowed"
+          <input type="text" th:field="*{pokoj.nrPokoju}" hidden>
+          <input type="text"  class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-sm placeholder-gray-700 cursor-not-allowed"
           th:placeholder="*{pokoj.nrPokoju}" readonly>
         </div>
       </div>
@@ -82,8 +80,9 @@
           </label>
         </div>
         <div class="md:w-2/3">
-          <input type="text" th:field="*{gosc.email}" class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[18px] placeholder-gray-700 cursor-not-allowed"
-          th:placeholder="*{gosc.email}" readonly>
+          <input type="text" th:field="*{gosc}" hidden>
+          <input type="text"  class="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-[18px] placeholder-gray-700 cursor-not-allowed"
+          th:placeholder="*{gosc.email}" readonly >
         </div>
       </div>
       <div class="md:flex md:items-center mb-8">

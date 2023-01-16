@@ -122,8 +122,9 @@ public class Kontrolery {
                 model.addAttribute("pokojTab", pokojRepo.findAll());
                 return("homeGosc");
             }
-            System.out.println(sesja);
+            // System.out.println(sesja);
             Gosc gosc = goscRepo.findByEmail(auth.getName());
+            // System.out.println(gosc);
             Pokoj pokoj = pokojRepo.findByIdIs(id);
             String koszt=(sesja.getEnd().getTime()-sesja.getStart().getTime())/86400000*pokoj.getCena()+"0zł";
             Rezerwacja rezerwacja =  new Rezerwacja(sesja.getStart(),sesja.getEnd(),pokoj,gosc);
@@ -139,6 +140,8 @@ public class Kontrolery {
     @RequestMapping(value="/gosc/rezerwujId", method=RequestMethod.POST)
     public String rezerwuj(Model model, Rezerwacja rezerwacja){
         try {
+            System.out.println("////////////////////////////////////////////////////////////////");
+            System.out.println(rezerwacja.getGosc());
             rezerwacjaRepo.save(rezerwacja);
             model.addAttribute("zarezerwowano", true);
             model.addAttribute("pokojTab", pokojRepo.findAll());
