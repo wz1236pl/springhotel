@@ -144,7 +144,7 @@ public class Kontrolery {
             // System.out.println("////////////////////////////////////////////////////////////////");
             // System.out.println(rezerwacja.getGosc());
             System.out.println(rezerwacja.getPokoj());
-            //rezerwacjaRepo.save(rezerwacja);
+            rezerwacjaRepo.save(rezerwacja);
             model.addAttribute("zarezerwowano", true);
             model.addAttribute("pokojTab", pokojRepo.findAll());
             return("homeGosc");
