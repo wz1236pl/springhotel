@@ -122,16 +122,13 @@ public class Kontrolery {
                 model.addAttribute("pokojTab", pokojRepo.findAll());
                 return("homeGosc");
             }
-            // System.out.println(sesja);
             Gosc gosc = goscRepo.findByEmail(auth.getName());
-            // System.out.println(gosc);
             Pokoj pokoj = pokojRepo.findByIdIs(id);
             System.out.println(pokoj);
             String koszt=(sesja.getEnd().getTime()-sesja.getStart().getTime())/86400000*pokoj.getCena()+"0zł";
             Rezerwacja rezerwacja =  new Rezerwacja(sesja.getStart(),sesja.getEnd(),pokoj,gosc);
             model.addAttribute("rezerwacjaIn", rezerwacja);
             model.addAttribute("koszt", koszt);
-            // System.out.println(rezerwacja);
             return("rezerwujId");
         } catch (Exception e) {
             throw e;
@@ -141,9 +138,6 @@ public class Kontrolery {
     @RequestMapping(value="/gosc/rezerwujId", method=RequestMethod.POST)
     public String rezerwuj(Model model, Rezerwacja rezerwacja){
         try {
-            // System.out.println("////////////////////////////////////////////////////////////////");
-            // System.out.println(rezerwacja.getGosc());
-            System.out.println(rezerwacja.getPokoj());
             rezerwacjaRepo.save(rezerwacja);
             model.addAttribute("zarezerwowano", true);
             model.addAttribute("pokojTab", pokojRepo.findAll());
