@@ -22,21 +22,24 @@ public class SecurityConfig{
     private CustomAuthenticationProvider customAuthenticationProvider;
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{                 //określa co kto może
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/register").permitAll()
+            .antMatchers("/register").permitAll()                                                   //do logowania i rejestracji dajemy dostęp wszystkim
             .antMatchers("/login").permitAll()
-            .antMatchers("/").permitAll()
-            .antMatchers("/gosc/edytujDane").hasAnyAuthority("GOSC","PRACOWNIK")
-            .antMatchers("/gosc/**").hasAnyAuthority("GOSC")
-            .antMatchers("/pracownik/**").hasAnyAuthority("PRACOWNIK")
+            .antMatchers("/").permitAll()                                                           //na pusty endpoint też
+            .antMatchers("/gosc/edytujDane").hasAnyAuthority("GOSC","PRACOWNIK")    //do edycji własnego profilu dajemy dostęp adminowi i userowi
+            .antMatchers("/gosc/**").hasAnyAuthority("GOSC")                        //ograniczamy dostęp tylko dla zalogowanego gościa (admin nie może rezerwować)
+            .antMatchers("/pracownik/**").hasAnyAuthority("PRACOWNIK")               //to samo dla admina    jak coś to "/**" to że po / wszystkie inne linki 
             .and()
             .formLogin()
-            .loginPage("/login")
+            .loginPage("/login")        //wywołuje ten endpoint jako podstawowy logowania
+            .and()
+            .logout()
+            .logoutSuccessUrl("/")          //przenosi na to url po wylogowaniu
             .and()
             .exceptionHandling()
-            .accessDeniedHandler(accessDeniedHandler());
+            .accessDeniedHandler(accessDeniedHandler());        // obsługa tego jak ktoś chce wejść na stronę na którą nie ma uprawnień
         
         return http.build();
     }
@@ -45,16 +48,16 @@ public class SecurityConfig{
     public AuthenticationManager authManager(HttpSecurity http) throws Exception{
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider);
-        return authenticationManagerBuilder.build();
+        return authenticationManagerBuilder.build();                                                //ustawiasz własnego providera dla logowania
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers("/h2/**");
+        return (web) -> web.ignoring().antMatchers("/h2/**");           //nie pozwalasz żeby spring zabezpieczał ci konsole bazy(baza ma swoje zabezpieczenia)
     }
 
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder(){                            //ustawiasz jak hashujesz hasła (jakim encoderem)
         return new BCryptPasswordEncoder();
     }
 

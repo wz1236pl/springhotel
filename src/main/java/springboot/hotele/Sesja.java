@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Sesja {
-    private Date start;
-    private Date end;
+public class Sesja {                        
+    private Date start;                 // klasa w której przechowujemy dane dotyczące wybranych dat
+    private Date end;                   // przechowowana w pamięci httpsession
     
     public Sesja() {
     }

@@ -9,15 +9,11 @@ import springboot.hotele.models.Pokoj;
 
 public interface PokojRepo extends JpaRepository<Pokoj, Integer> {
 
-    Pokoj findByIdIs(Integer id);
-
-    // List<Pokoj> findByRezerwacjaDataStartNotInAndRezerwacjaDataEndNotIn(List<Date> list1,List<Date> list2);
+    Pokoj findByIdIs(Integer id);   //szukanie pokoju po id, zwraca pojedyńczy pokój
     
-    List<Pokoj> findDistinctAllPokojByRezerwacjaDataStartInAndRezerwacjaDataEndIn(List<Date> list1, List<Date> list2);
-
-    List<Pokoj> findAllByIdNotIn(List<Integer> list);
-
-    
+    List<Pokoj> findDistinctAllPokojByRezerwacjaDataStartInAndRezerwacjaDataEndIn(List<Date> list1, List<Date> list2);  //szukanie czy data początkowa lub końcowa jest w zbiorze dat
+                                                                                                                        //otrzyjemy liste pokojów 
+    List<Pokoj> findAllByIdNotIn(List<Integer> list);   //szuka nam pokojów których id nie jest w liście 
 
 }
 

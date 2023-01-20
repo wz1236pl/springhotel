@@ -26,17 +26,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
     
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        final String email = authentication.getName();
-        final String password = authentication.getCredentials().toString();
+        final String email = authentication.getName();                              // z form logowania pobiera login
+        final String password = authentication.getCredentials().toString();         // z form logowania pobiera hasło
         
-        Gosc gosc = gRepo.findByEmail(email);
-        if(gosc == null){throw new UsernameNotFoundException("User not found");}
-        if(passwordEncoder.matches(password, gosc.getPassword())){
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(gosc.getRole()));
-            return new UsernamePasswordAuthenticationToken(email, password, authorities);
+        Gosc gosc = gRepo.findByEmail(email);                                                   // szuka użytkownika z podanym w logowaniu emailem
+        if(gosc == null){throw new UsernameNotFoundException("User not found");}            // jeśli nie ma takiego w bazie wywala wyjątek
+        if(passwordEncoder.matches(password, gosc.getPassword())){                              // jak jest to sprawdza czy hasła się zgadzają 
+            List<GrantedAuthority> authorities = new ArrayList<>();                             // tworzy liste typu GrantedAuthority
+            authorities.add(new SimpleGrantedAuthority(gosc.getRole()));                        // dodaje do listy uprawnień tego usera 
+            return new UsernamePasswordAuthenticationToken(email, password, authorities);       // zwraca nam token po którym się autoryzuje
         }else{
-            throw new BadCredentialsException("Login error!");
+            throw new BadCredentialsException("Login error!");                              // jeśli znalazło usera ale hasło się nie zgadza to wywala wyjątek
         }
     }
 
