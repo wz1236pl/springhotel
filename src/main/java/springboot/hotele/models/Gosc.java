@@ -13,9 +13,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="gosc") 
+@Table(name="gosc")     //określenie nazwy tabeli
 public class Gosc {
-    
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
